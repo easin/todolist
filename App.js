@@ -1,117 +1,125 @@
-import React, { Component } from 'react';
-import TabNavigator from 'react-native-tab-navigator';
+import React, {Component} from 'react';
+
 import {
-  AppRegistry,
-  Text,
-  View,
-  Navigator,
-  StyleSheet,
-  Image,
-  TouchableHighlight  
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View,
+    Image
 } from 'react-native';
- 
-import HomeComponent from          './HomeComponent';
-import CustomerComponent from      './CustomerComponent';
-import OrderComponent  from    './OrderComponent';
-import ProductComponent from    './ProductComponent';
-import MineComponent  from  './MineComponent';
- 
-export default class Main extends Component 
-{
- 
- constructor(props) {
- super(props);
- this.state = {
-      selectedTab:'home'
-    };
- }
- 
-render() {
+//导入react-native-tab-navigator方式：
+//cmd项目路径下执行npm install react-native-tab-navigator --save
+import TabNavigator from 'react-native-tab-navigator'
+export default class Tabnavigator extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedTab: 'Event'
+        }
+    }
+
+    render() {
         return (
-            <View style={styles.container} >
-                <TabNavigator tabBarStyle={styles.tab}>
+            <View style={styles.container}>
+                <TabNavigator>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab === '首页'}
-                        title="首页"
+                        //设置选中的位置
+                        selected={this.state.selectedTab === 'Event'}
+                        //标题
+                        title="Event"
+                        //标题样式
                         titleStyle={styles.tabText}
+                        //选中时标题文字样式
                         selectedTitleStyle={styles.selectedTabText}
-                        renderIcon={() => <Image source={require('./img/ic_home_normal.png')} style={styles.icon}/> }
-                        renderSelectedIcon={() => <Image style={styles.icon} source={require('./img/ic_home_checked.png')} />}
-                        onPress={() => this.setState({ selectedTab: '首页' })}>
-                        <HomeComponent/>
+                        //图标
+                        renderIcon={() => <Image style={styles.icon} source={require("./res/images/icon_alarm_normal.png")} />}
+                        //选中时图标
+                        renderSelectedIcon={() => <Image style={[styles.icon,{tintColor:'red'}]} source={require("./res/images/icon_alarm_normal.png")} />}
+                        //点击Event
+                        onPress={() => this.setState({ selectedTab: 'Event' })}>
+                        <View style={styles.page0}>
+                            <Text style={{fontSize:18,padding:15,color: 'blue'}}>This is Event Page</Text>
+                        </View>
                     </TabNavigator.Item>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab === '订单'}
-                        title="订单"
+                        selected={this.state.selectedTab === 'Log'}
+                        title="Log"
                         titleStyle={styles.tabText}
                         selectedTitleStyle={styles.selectedTabText}
-                        renderIcon={() => <Image source={require('./img/ic_order_normal.png')} style={styles.icon}/> }
-                        renderSelectedIcon={() => <Image style={styles.icon} source={require('./img/ic_order_checked.png')} />}
-                        onPress={() => this.setState({ selectedTab: '订单' })}>
-                        <OrderComponent />
+                        renderIcon={() => <Image style={styles.icon} source={require("./res/images/icon_alarm_normal.png")} />}
+                        renderSelectedIcon={() =>  <Image style={[styles.icon,{tintColor:'red'}]} source={require("./res/images/icon_alarm_normal.png")} />}
+                        onPress={() => this.setState({ selectedTab: 'Log' })}>
+                        <View style={styles.page0}>
+                            <Text style={{fontSize:18,padding:15,color: 'blue'}}>This is Log Page</Text>
+                        </View>
                     </TabNavigator.Item>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab === '客户'}
-                        title="客户"
+                        selected={this.state.selectedTab === 'Device'}
+                        title="Device"
                         titleStyle={styles.tabText}
                         selectedTitleStyle={styles.selectedTabText}
-                        renderIcon={() => <Image source={require('./img/ic_customer_normal.png')} style={styles.icon}/> }
-                        renderSelectedIcon={() => <Image style={styles.icon} source={require('./img/ic_customer_checked.png')} />}
-                        onPress={() => this.setState({ selectedTab: '客户' })}>
-                        <CustomerComponent />
+                        renderIcon={() => <Image style={styles.icon} source={require("./res/images/icon_alarm_normal.png")} />}
+                        renderSelectedIcon={() => <Image style={[styles.icon,{tintColor:'red'}]} source={require("./res/images/icon_alarm_normal.png")} />}
+                        onPress={() => this.setState({ selectedTab: 'Device' })}>
+                        <View style={styles.page1}>
+                            <Text style={{fontSize:18,padding:15,color: '#fff'}}>This is Device Page</Text>
+                        </View>
                     </TabNavigator.Item>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab === '产品'}
-                        title="产品"
+                        selected={this.state.selectedTab === 'User'}
+                        title="User"
                         titleStyle={styles.tabText}
                         selectedTitleStyle={styles.selectedTabText}
-                        renderIcon={() => <Image source={require('./img/ic_product_normal.png')} style={styles.icon}/> }
-                        renderSelectedIcon={() => <Image style={styles.icon} source={require('./img/ic_product_checked.png')} />}
-                        onPress={() => this.setState({ selectedTab: '产品' })}>
-                        <ProductComponent />
+                        renderIcon={() => <Image style={styles.icon} source={require("./res/images/icon_alarm_normal.png")} />}
+                        renderSelectedIcon={() => <Image style={[styles.icon,{tintColor:'red'}]} source={require("./res/images/icon_alarm_normal.png")} />}
+                        onPress={() => this.setState({ selectedTab: 'User' })}>
+                        <View style={styles.page1}>
+                            <Text style={{fontSize:18,padding:15,color: '#fff'}}>This is User Page</Text>
+                        </View>
                     </TabNavigator.Item>
-                   <TabNavigator.Item
-                        selected={this.state.selectedTab === '我的'}
-                        title="我的"
+
+                    <TabNavigator.Item
+                        selected={this.state.selectedTab === 'User5'}
+                        title="User5"
                         titleStyle={styles.tabText}
                         selectedTitleStyle={styles.selectedTabText}
-                        renderIcon={() => <Image source={require('./img/ic_mine_normal.png')} style={styles.icon}/> }
-                        renderSelectedIcon={() => <Image style={styles.icon} source={require('./img/ic_mine_checked.png')} />}
-                        onPress={() => this.setState({ selectedTab: '我的' })}>
-                        <MineComponent />
+                        renderIcon={() => <Image style={styles.icon} source={require("./res/images/icon_alarm_normal.png")} />}
+                        renderSelectedIcon={() => <Image style={[styles.icon,{tintColor:'red'}]} source={require("./res/images/icon_alarm_normal.png")} />}
+                        onPress={() => this.setState({ selectedTab: 'User5' })}>
+                        <View style={styles.page1}>
+                            <Text style={{fontSize:18,padding:15,color: '#f0f'}}>This is User Page 5</Text>
+                        </View>
                     </TabNavigator.Item>
                 </TabNavigator>
             </View>
         );
     }
- 
- 
 }
- 
- 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    tab: {  
-        height: 70,  
-        backgroundColor: '#222222',  
-        alignItems: 'center'  
-    },
     tabText: {
-        marginTop: 1,
-        color: '#ffffff',
-        fontSize: 16
+        fontSize: 10,
+        color: 'black'
     },
     selectedTabText: {
-        marginTop: 1,
-        color: '#FFD700',
-        fontSize: 16
+        fontSize: 10,
+        color: 'red'
     },
     icon: {
-        width: 30,
-        height: 31,
-        resizeMode: 'stretch',  
-        marginTop: 10  
-    }
+        width: 22,
+        height: 22
+    },
+    page0: {
+        flex: 1,
+        backgroundColor: 'yellow'
+    },
+    page1: {
+        flex: 1,
+        backgroundColor: 'blue'
+    }
 });
+
+// AppRegistry.registerComponent('Tabnavigator', () => Tabnavigator);
