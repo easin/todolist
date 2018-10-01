@@ -122,4 +122,4 @@ const styles = StyleSheet.create({
     }
 });
 
-// AppRegistry.registerComponent('Tabnavigator', () => Tabnavigator);
+AppRegistry.registerComponent('Tabnavigator', () => Tabnavigator);
