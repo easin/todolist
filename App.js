@@ -8,8 +8,6 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-
-import ToiletPage from './src/components/ToiletPage'
 import TabMenuNavigationBar from './src/components/TabMenuNavigationBar'
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
