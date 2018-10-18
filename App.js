@@ -8,7 +8,9 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import TabMenuNavigationBar from './src/components/TabMenuNavigationBar'
+import TabMenuNavigationBar from './src/components/TabMenuNavigationBar';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as StoreProvider } from 'react-redux';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -20,7 +22,9 @@ type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-        <TabMenuNavigationBar />
+        <View>
+          <Text>xxxx</Text>
+        </View>
     );
   }
 }
