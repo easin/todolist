@@ -53,7 +53,7 @@ const AlbumsRoute = () => <Text>Albums</Text>;
 
 const RecentsRoute = () => <Text>Recents</Text>;
 
-export default class MyComponent extends React.Component {
+export default class Today extends React.Component {
   state = {
     index: 0,
     routes: [

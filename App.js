@@ -8,16 +8,15 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import TabMenuNavigationBar from './src/components/TabMenuNavigationBar';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
-import MyComponent from './src/components/Today'
+import TodoListBottomNavigation from './src/components/TodoListBottomNavigation'
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <MyComponent />
+      <TodoListBottomNavigation />
     );
   }
 }
