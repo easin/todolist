@@ -15,8 +15,7 @@ import { Provider as StoreProvider } from 'react-redux';
 // import routes from './routes'
 import configureStore from './src/store/configureStore'
 
-import TodoListBottomNavigation from './src/components/TodoListBottomNavigation';
-import {TodoListBottomNavigationContainer} from './src/containers/containers';
+import TodoListBottomNavigation from './src/containers/TodoListBottomNavigation';
 type Props = {};
 const store = configureStore()
 //const history = syncHistoryWithStore(browserHistory, store)
@@ -26,7 +25,7 @@ export default class App extends Component<Props> {
     return (
       <StoreProvider store={store}>
         <PaperProvider>
-          <TodoListBottomNavigationContainer />
+          <TodoListBottomNavigation />
         </PaperProvider>
       </StoreProvider>
       
