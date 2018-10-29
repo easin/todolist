@@ -1,0 +1,16 @@
+import { createAction } from "redux-actions";
+export const getUserRequest = createAction("GET_USER_REQUEST");
+export const listUsersRequest = createAction("LIST_USERS_REQUEST");
+export const addUserRequest = createAction("ADD_USER_REQUEST");
+export const updateUsersRequest = createAction("UPDATE_USERS_REQUEST");
+export const delUsersRequest = createAction("DEL_USERS_REQUEST");
+export const getUserSuccess = createAction("GET_USER_SUCCESS");
+export const getUserFailure = createAction("GET_USER_FAILURE");
+export const listUsersSuccess = createAction("LIST_USERS_SUCCESS");
+export const listUsersFailure = createAction("LIST_USERS_FAILURE");
+export const addUserSuccess = createAction("ADD_USER_SUCCESS");
+export const addUserFailure = createAction("ADD_USER_FAILURE");
+export const updateUsersSuccess = createAction("UPDATE_USERS_SUCCESS");
+export const updateUsersFailure = createAction("UPDATE_USERS_FAILURE");
+export const delUsersSuccess = createAction("DEL_USERS_SUCCESS");
+export const delUsersFailure = createAction("DEL_USERS_FAILURE");

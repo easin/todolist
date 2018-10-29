@@ -1,0 +1,16 @@
+import { createAction } from "redux-actions";
+export const getTagRequest = createAction("GET_TAG_REQUEST");
+export const listTagsRequest = createAction("LIST_TAGS_REQUEST");
+export const addTagRequest = createAction("ADD_TAG_REQUEST");
+export const updateTagsRequest = createAction("UPDATE_TAGS_REQUEST");
+export const delTagsRequest = createAction("DEL_TAGS_REQUEST");
+export const getTagSuccess = createAction("GET_TAG_SUCCESS");
+export const getTagFailure = createAction("GET_TAG_FAILURE");
+export const listTagsSuccess = createAction("LIST_TAGS_SUCCESS");
+export const listTagsFailure = createAction("LIST_TAGS_FAILURE");
+export const addTagSuccess = createAction("ADD_TAG_SUCCESS");
+export const addTagFailure = createAction("ADD_TAG_FAILURE");
+export const updateTagsSuccess = createAction("UPDATE_TAGS_SUCCESS");
+export const updateTagsFailure = createAction("UPDATE_TAGS_FAILURE");
+export const delTagsSuccess = createAction("DEL_TAGS_SUCCESS");
+export const delTagsFailure = createAction("DEL_TAGS_FAILURE");

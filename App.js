@@ -10,32 +10,26 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
-import TodoListBottomNavigation from './src/components/TodoListBottomNavigation'
+// import { Router, browserHistory } from 'react-router'
+// import { syncHistoryWithStore } from 'react-router-redux'
+// import routes from './routes'
+import configureStore from './src/store/configureStore'
 
+import TodoListBottomNavigation from './src/components/TodoListBottomNavigation';
+import {TodoListBottomNavigationContainer} from './src/containers/containers';
 type Props = {};
+const store = configureStore()
+//const history = syncHistoryWithStore(browserHistory, store)
+
 export default class App extends Component<Props> {
   render() {
     return (
-      <TodoListBottomNavigation />
+      <StoreProvider store={store}>
+        <PaperProvider>
+          <TodoListBottomNavigationContainer />
+        </PaperProvider>
+      </StoreProvider>
+      
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
