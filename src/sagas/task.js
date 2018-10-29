@@ -12,6 +12,7 @@ export function* handleGetTaskRequest(action) {
 }
 export function* handleListTasksRequest(action) {
   try {
+    console.log('xxxxxx')
     const { data } = yield call(api.listTasksRequest, action.payload);
     yield put(actions.listTasksSuccess(data));
   } catch (error) {

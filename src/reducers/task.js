@@ -1,7 +1,7 @@
 import { handleActions } from "redux-actions";
 import * as actions from "../actions";
 
-const initialState = {};
+const initialState = {taskPage:{}};
 
 export default handleActions(
   {
@@ -27,7 +27,8 @@ export default handleActions(
       ...state
     }),
     [actions.listTasksSuccess]: (state, action) => ({
-      ...state
+      ...state,
+      taskPage: action.payload
     }),
     [actions.listTasksFailure]: (state, action) => ({
       ...state
