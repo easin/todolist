@@ -14,6 +14,7 @@ export function* handleListTasksRequest(action) {
   try {
     console.log('xxxxxx')
     const { data } = yield call(api.listTasksRequest, action.payload);
+    console.log('yyyyyy->'+data)
     yield put(actions.listTasksSuccess(data));
   } catch (error) {
     yield put(actions.listTasksFailure(error));
