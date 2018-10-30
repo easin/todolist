@@ -28,12 +28,12 @@ class Today extends React.Component {
   };
 
  render() {
-    const { coins } = this.props.coins
+    // const { coins } = this.props.coins
 
         return (
 
             <View >
-     	<Text>xxxxx{coins.totalPage}</Text>
+     	<Text>xxxxx</Text>
             </View>
         
         )
