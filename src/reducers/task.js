@@ -30,9 +30,12 @@ export default handleActions(
       ...state,
       taskPage: action.payload
     }),
-    [actions.listTasksFailure]: (state, action) => ({
+    [actions.listTasksFailure]: (state, action) => {
+      console.log('出错啦'+this.state+action.payload)
+      return
+      ({
       ...state
-    }),
+    })},
     [actions.addTaskSuccess]: (state, action) => ({
       ...state
     }),
