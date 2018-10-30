@@ -1,6 +1,7 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import * as actions from "../actions";
 import api from "../api";
+import axios from "../axiosConfig";
 
 export function* handleGetTaskRequest(action) {
   try {
@@ -12,11 +13,20 @@ export function* handleGetTaskRequest(action) {
 }
 export function* handleListTasksRequest(action) {
   try {
-    console.log('xxxxxx')
+    console.log('xxxxxxY')
+    // axios.get('http://www.easin.tech:8000/api/task/page')
+    //     .then((response) => {
+    //         console.log(response.data);
+            
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     })
     const { data } = yield call(api.listTasksRequest, action.payload);
     console.log('yyyyyy->'+data)
     yield put(actions.listTasksSuccess(data));
   } catch (error) {
+    console.log(error)//尼玛被吃掉了，操蛋
     yield put(actions.listTasksFailure(error));
   }
 }

@@ -20,13 +20,14 @@ import TodayTest from './src/containers/TodayTest'
 type Props = {};
 const store = configureStore()
 //const history = syncHistoryWithStore(browserHistory, store)
-//<TodoListBottomNavigation />
+//<TodoListBottomNavigation /><TodayTest />
 export default class App extends Component<Props> {
   render() {
     return (
       <StoreProvider store={store}>
         <PaperProvider>
-          <TodayTest />
+       <TodayTest />
+          
         </PaperProvider>
       </StoreProvider>
       
