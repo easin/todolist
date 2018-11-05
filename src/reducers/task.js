@@ -1,7 +1,7 @@
 import { handleActions } from "redux-actions";
 import * as actions from "../actions";
 
-const initialState = {taskPage:{}};
+const initialState = {taskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0}};
 
 export default handleActions(
   {
