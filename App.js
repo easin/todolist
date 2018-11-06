@@ -14,6 +14,7 @@ import { Provider as StoreProvider } from 'react-redux';
 // import { syncHistoryWithStore } from 'react-router-redux'
 // import routes from './routes'
 import configureStore from './src/store/configureStore'
+import TestListPage2 from './src/containers/TestListPage2'
 
 import TodoListBottomNavigation from './src/containers/TodoListBottomNavigation';
 import TodayTest from './src/containers/TodayTest'
@@ -26,7 +27,7 @@ export default class App extends Component<Props> {
     return (
       <StoreProvider store={store}>
         <PaperProvider>
-       <TodayTest />
+       <TestListPage2 />
           
         </PaperProvider>
       </StoreProvider>
