@@ -96,7 +96,7 @@ class TodoList extends Component {
   }
 
   renderCell = (tasks: Object) => {
-    return <Cell info={tasks.item} />
+    return <Cell task={tasks.item} />
   }
 
   render() {
