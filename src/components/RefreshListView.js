@@ -18,7 +18,7 @@ export const RefreshState = {
   EmptyData: 5,
 }
 
-const DEBUG = true;
+const DEBUG = true
 const log = (text: string) => {DEBUG && console.log(text)}
 
 type Props = {

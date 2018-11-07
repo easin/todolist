@@ -19,21 +19,19 @@ class Cell extends PureComponent {
 
     render() {
         console.log('render cell')
-        let {info} = this.props
+        let {task} = this.props
 
-        info.imageUrl = info.imageUrl.replace('w.h', '160.0')
+        // info.imageUrl = info.imageUrl.replace('w.h', '160.0')
 
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
-                <Image source={{uri: info.imageUrl}} style={styles.icon} />
-
-                <View style={styles.rightContainer}>
-                    <Text style={styles.h1}>{info.title}</Text>
+                 <View style={styles.rightContainer}>
+                    <Text style={styles.h1}>{task.taskName}</Text>
                     <View>
                     </View>
-                    <Text style={styles.p} numberOfLines={0} style={{marginTop: 8}}>{info.subtitle}</Text>
+                    <Text style={styles.p} numberOfLines={0} style={{marginTop: 8}}>{task.taskName}</Text>
                     <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                        <Text style={[styles.h1, styles.price]}>{info.price}元</Text>
+                        <Text style={[styles.h1, styles.price]}>{task.taskName}元</Text>
                     </View>
 
                 </View>

@@ -55,9 +55,35 @@ export function* handleDelTasksRequest(action) {
   }
 }
 
+
+export function* handleOnHeaderRefreshRequest(action) {
+  try {
+    console.log('handleOnHeaderRefreshRequest xxxxxxY')
+    const { data } = yield call(api.listTasksRequest, action.payload);
+    console.log('yyyyyy->'+data)
+    yield put(actions.onHeaderRefreshSuccess(data));
+  } catch (error) {
+    console.log(error)
+    yield put(actions.onHeaderRefreshFailure(error));
+  }
+}
+export function* handleOnFooterRefreshRequest(action) {
+  try {
+    console.log('onFooterRefreshRequest xxxxxxY')
+    const { data } = yield call(api.listTasksRequest, action.payload);
+    console.log('yyyyyy->'+data)
+    yield put(actions.onFooterRefreshSuccess(data));
+  } catch (error) {
+    console.log(error)
+    yield put(actions.onFooterRefreshFailure(error));
+  }
+}
+
 export default [
   takeLatest(actions.getTaskRequest.toString(), handleGetTaskRequest),
   takeLatest(actions.listTasksRequest.toString(), handleListTasksRequest),
+  takeLatest(actions.onHeaderRefreshRequest.toString(), handleOnHeaderRefreshRequest),//头部下拉刷新
+  takeLatest(actions.onFooterRefreshRequest.toString(), handleOnFooterRefreshRequest),//尾部上拉刷新
   takeLatest(actions.addTaskRequest.toString(), handleAddTaskRequest),
   takeLatest(actions.updateTasksRequest.toString(), handleUpdateTasksRequest),
   takeLatest(actions.delTasksRequest.toString(), handleDelTasksRequest)
