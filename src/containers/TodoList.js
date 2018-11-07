@@ -7,7 +7,7 @@
 //  https://github.com/huanxsd/react-native-refresh-list-view
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { onHeaderRefreshRequest }from '../actions';
+import { onHeaderRefreshRequest, onFooterRefreshRequest, }from '../actions';
 
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Platform } from 'react-native'
@@ -101,12 +101,28 @@ class TodoList extends Component {
 
   render() {
     // taskPage.list
-    const { taskPage, noMoreData, refreshState,taskType,onHeaderRefresh,onFooterRefresh } = this.props
+    const { taskPage, noMoreData, refreshState,taskType,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
     console.log(this.props);
-    console.log('render scene')
+    console.log('render scene');
+
+    console.log(taskPage)
+    const {list}=taskPage;
     return (
       <View style={styles.container}>
-       <Text>{taskPage.list.length}</Text>
+        <RefreshListView
+          data={list}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderCell}
+          refreshState={refreshState}
+          onHeaderRefresh={onHeaderRefreshRequest}
+          onFooterRefresh={onFooterRefreshRequest}
+
+          // 可选
+          footerRefreshingText='玩命加载中 >.<'
+          footerFailureText='我擦嘞，居然失败了 =.=!'
+          footerNoMoreDataText='-我是有底线的-'
+          footerEmptyDataText='-好像什么东西都没有-'
+        />
       </View>
     )
   }
@@ -135,15 +151,18 @@ const styles = StyleSheet.create({
 // }
 const mapStateToProps = (state, ownProps) => {
   console.log('ownProps is:')
-  console.log(ownProps)
+  // console.log(ownProps)
   console.log('state is:')
-  console.log(state)
+  // console.log(state)
   return {
-    taskPage: state.task.taskPage
+    taskPage:state.task.taskPage, 
+    noMoreData:state.task.noMoreData, 
+    refreshState:state.task.refreshState,
+    taskType: state.task.taskType
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHeaderRefreshRequest
+  onHeaderRefreshRequest,onFooterRefreshRequest
 },dispatch)
 // export const TodoListContainer =connect(mapStateToProps, mapDispatchToProps)(TodoList);
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

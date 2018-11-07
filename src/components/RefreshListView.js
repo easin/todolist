@@ -5,7 +5,7 @@
 //  @flow
 //  Github:
 //  https://github.com/huanxsd/react-native-refresh-list-view
-
+// state 不需要变化，放在 components里
 import React, {PureComponent} from 'react'
 import {View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, ViewPropTypes} from 'react-native'
 
