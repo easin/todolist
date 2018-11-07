@@ -18,16 +18,17 @@ import TestListPage2 from './src/containers/TestListPage2'
 
 import TodoListBottomNavigation from './src/containers/TodoListBottomNavigation';
 import TodayTest from './src/containers/TodayTest'
+import PullFlatlistDemo from './src/containers/PullFlatlistDemo'
 type Props = {};
 const store = configureStore()
 //const history = syncHistoryWithStore(browserHistory, store)
-//<TodoListBottomNavigation /><TodayTest />
+//<TodoListBottomNavigation /><TodayTest /> <TestListPage2 />
 export default class App extends Component<Props> {
   render() {
     return (
       <StoreProvider store={store}>
         <PaperProvider>
-       <TestListPage2 />
+       <PullFlatlistDemo />
           
         </PaperProvider>
       </StoreProvider>
