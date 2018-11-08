@@ -4,7 +4,7 @@ import {
     View,
     Text,
 }from 'react-native';
-import TodoList2  from './TodoList';
+import TodoList  from './TodoList';
 // import TestListPage2  from './TestListPage2'
 // <TodoList /><TodoListContainer /> TestListPage2 
 class Today extends React.Component {
@@ -19,7 +19,7 @@ class Today extends React.Component {
         // const Comp = () =>(<TodoList />);
         // return (Comp);
         return (
-          <TodoList2/>
+          <TodoList/>
          // <View><Text>xxxx</Text></View>
          // <View><</View>
          
