@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import Today from './Today'
-import TestListPage2 from './TestListPage2'
+import TodoListContainer from './TodoList'
+// import TestListPage2 from './TestListPage2'
 const MusicRoute = () => <Text>Music</Text>;
 
 const AlbumsRoute = () => <Text>Albums</Text>;
@@ -26,7 +27,7 @@ export default class TodoListBottomNavigation extends React.Component {
 
   _renderScene = BottomNavigation.SceneMap({
     today: Today,
-    week: TestListPage2,
+    week: AlbumsRoute,
     month: RecentsRoute,
     archive: RecentsRoute,
     my: RecentsRoute,

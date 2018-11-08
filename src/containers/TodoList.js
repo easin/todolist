@@ -106,6 +106,7 @@ class TodoList extends Component {
     return (
       <View style={styles.container}>
         <RefreshListView
+          style={styles.testStyle}
           data={list}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderCell}
@@ -128,11 +129,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Platform.OS == 'ios' ? 20 : 0,
+    
   },
   title: {
     fontSize: 18,
     height: 84,
-    textAlign: 'center'
+    textAlign: 'center',
+    // backgroundColor:'blue',
+  },
+  testStyle:{
+    backgroundColor:'red',
   }
 })
 

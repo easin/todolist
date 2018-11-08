@@ -1,56 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-// import * as actionCreators from '../actions/task';
-
-import { listTasksRequest } from '../actions/task';
-// import { listTasksRequest } from '../actions'
 import {
     View,
-    Image,
-    Dimensions,
-    ScrollView,
     Text,
-    StyleSheet,
-    TouchableOpacity,
-    Button,
-    FlatList,
-    ActivityIndicator,
-    RefreshControl,
 }from 'react-native';
-
+import TodoList2  from './TodoList';
+// import TestListPage2  from './TestListPage2'
+// <TodoList /><TodoListContainer /> TestListPage2 
 class Today extends React.Component {
   componentDidMount() {
-        this.props.listTasksRequest()
+        // this.props.listTasksRequest()
     }
   state = {
     active: 'first',
   };
 
  render() {
-    // const { coins } = this.props.coins
-
+        // const Comp = () =>(<TodoList />);
+        // return (Comp);
         return (
-
-            <View >
-     	<Text>xxxxx</Text>
-            </View>
-        
+          <TodoList2/>
+         // <View><Text>xxxx</Text></View>
+         // <View><</View>
+         
         )
     }
 
 }
 
-
-//关联属性到组件，关联事件到组件
-const mapStateToProps = (state, ownProps) => {
-  return {
-    coins: state.result
-  }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  listTasksRequest
-},dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Today)
+export default connect()(Today)

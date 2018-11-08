@@ -91,7 +91,7 @@ export default handleActions(
       // console.log('------------------------2S')
       // console.log(state.taskPage)
       // console.log('------------------------3S')
-      const MAX_SIZE = 30;//最多一百条
+      const MAX_SIZE = 60;//最多一百条
       // console.log('------------------------2')
       const thisTotal=action.payload.list.length+state.taskPage.list.length;
       // console.log("KKKKKxxx"+thisTotal)
@@ -120,6 +120,7 @@ export default handleActions(
 
       if(thisTotal>MAX_SIZE)
       {
+        //超过不合并了
         newTaskPage.list = _.concat(state.taskPage.list, newTaskPage.list);
       }
       return ({

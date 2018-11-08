@@ -70,6 +70,7 @@ export function* handleOnHeaderRefreshRequest(action) {
 export function* handleOnFooterRefreshRequest(action) {
   try {
     console.log('onFooterRefreshRequest xxxxxxY')
+    // if(action.payload)
     const { data } = yield call(api.listTasksRequest, action.payload);
     // console.log('yyyyyy->'+data)
     yield put(actions.onFooterRefreshSuccess(data));
