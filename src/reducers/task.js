@@ -1,6 +1,7 @@
 import { handleActions } from "redux-actions";
 import * as actions from "../actions";
 import { RefreshState } from '../components/RefreshListView';
+import _ from "lodash";
 
 const initialState = {
   taskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},
@@ -84,19 +85,49 @@ export default handleActions(
     }),
     [actions.onFooterRefreshSuccess]: (state, action) => {
       //底部上拉刷新：加上之前的list，合并加载
-      var newTaskPage = action.payload;
-      const {list} = state.taskPage.list;
+      var newTaskPage = state.taskPage;
+      // console.log('------------------------xxxS')
+      // console.log(action.payload)
+      // console.log('------------------------2S')
+      // console.log(state.taskPage)
+      // console.log('------------------------3S')
       const MAX_SIZE = 30;//最多一百条
+      // console.log('------------------------2')
+      const thisTotal=action.payload.list.length+state.taskPage.list.length;
+      // console.log("KKKKKxxx"+thisTotal)
+      const refreshFlag=thisTotal>MAX_SIZE? RefreshState.NoMoreData : RefreshState.Idle
+      // if(thisTotal<MAX_SIZE)
+      // {
+      //     newTaskPage.list = _.concat(state.taskPage, newTaskPage.list);
+      //     return ({
+      //     ...state,
+      //     taskPage: newTaskPage,
+      //     noMoreData:action.payload.totalPage==action.payload.pageNo,
+      //     refreshState: refreshFlag
+      //   })
+      // }
+      
+      // newTaskPage.list = newTaskPage.list.unshift.apply(newTaskPage.list,state.taskPage.list);
+      // console.log('xxynewTaskPage.list:')
+      // console.log(newTaskPage)
+      console.log('xxxxxx------------------------5')
+      console.log('RefreshState'+refreshFlag)
+      // return ({
+      //           ...state,
+      //           noMoreData:action.payload.totalPage==action.payload.pageNo,
+      //           refreshState: refreshFlag
+      //         });
 
-// b.unshift.apply( b, q );
-
-      newTaskPage.list = newTaskPage.list.unshift.apply(newTaskPage.list,this.state.taskPage.list);
+      if(thisTotal>MAX_SIZE)
+      {
+        newTaskPage.list = _.concat(state.taskPage.list, newTaskPage.list);
+      }
       return ({
-      ...state,
-      taskPage: newTaskPage,
-      noMoreData:action.payload.totalPage==action.payload.pageNo,
-      refreshState: action.payload.list.length < 1 || newTaskPage.list.length>MAX_SIZE? RefreshState.EmptyData : RefreshState.Idle
-    });
+          ...state,
+          taskPage: newTaskPage,
+          noMoreData:action.payload.totalPage==action.payload.pageNo,
+          refreshState: refreshFlag
+        })
       },
     [actions.onFooterRefreshFailure]: (state, action) => ({
       ...state,refreshState: RefreshState.Failure 

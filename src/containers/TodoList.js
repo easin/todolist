@@ -31,8 +31,6 @@ class TodoList extends Component {
   // }
 
   componentDidMount() {
-    console.log("---------属性为:")
-    console.log(this.props)
     this.props.onHeaderRefreshRequest()
   }
 
@@ -102,10 +100,8 @@ class TodoList extends Component {
   render() {
     // taskPage.list
     const { taskPage, noMoreData, refreshState,taskType,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
-    console.log(this.props);
-    console.log('render scene');
-
-    console.log(taskPage)
+    // console.log(this.props);
+    console.log('render scene:'+taskPage.list.length);
     const {list}=taskPage;
     return (
       <View style={styles.container}>
@@ -152,8 +148,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   console.log('ownProps is:')
   // console.log(ownProps)
-  console.log('state is:')
-  // console.log(state)
+  console.log('sssstate is:')
+  console.log(state)
   return {
     taskPage:state.task.taskPage, 
     noMoreData:state.task.noMoreData, 

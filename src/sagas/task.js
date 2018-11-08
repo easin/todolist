@@ -23,7 +23,7 @@ export function* handleListTasksRequest(action) {
     //         console.log(err);
     //     })
     const { data } = yield call(api.listTasksRequest, action.payload);
-    console.log('yyyyyy->'+data)
+    // console.log('yyyyyy->'+data)
     yield put(actions.listTasksSuccess(data));
   } catch (error) {
     console.log(error)//尼玛被吃掉了，操蛋
@@ -60,7 +60,7 @@ export function* handleOnHeaderRefreshRequest(action) {
   try {
     console.log('handleOnHeaderRefreshRequest xxxxxxY')
     const { data } = yield call(api.listTasksRequest, action.payload);
-    console.log('yyyyyy->'+data)
+    // console.log('yyyyyy->'+data)
     yield put(actions.onHeaderRefreshSuccess(data));
   } catch (error) {
     console.log(error)
@@ -71,7 +71,7 @@ export function* handleOnFooterRefreshRequest(action) {
   try {
     console.log('onFooterRefreshRequest xxxxxxY')
     const { data } = yield call(api.listTasksRequest, action.payload);
-    console.log('yyyyyy->'+data)
+    // console.log('yyyyyy->'+data)
     yield put(actions.onFooterRefreshSuccess(data));
   } catch (error) {
     console.log(error)

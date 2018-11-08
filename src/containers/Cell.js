@@ -19,7 +19,7 @@ class Cell extends PureComponent {
 
     render() {
         console.log('render cell')
-        console.log(this.props);
+        // console.log(this.props);
         let {task} = this.props
 
         // info.imageUrl = info.imageUrl.replace('w.h', '160.0')
