@@ -92,7 +92,7 @@ class TodoList extends Component {
   // }
 
   keyExtractor = (item: any, index: number) => {
-    return index
+    return index.toString()
   }
 
   renderCell = (tasks: Object) => {
