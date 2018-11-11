@@ -102,7 +102,7 @@ class TodoList extends Component {
     // taskPage.list
     const { taskPage, noMoreData, refreshState,taskType,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
     // console.log(this.props);
-    console.log('render scene:'+taskPage.list.length);
+    console.log('render scene:'+taskPage.pageNo);
     const {list}=taskPage;
     return (
       <View style={styles.container} onLayout={({nativeEvent:e})=>this.layout(e)}>
@@ -112,8 +112,8 @@ class TodoList extends Component {
           keyExtractor={this.keyExtractor}
           renderItem={this.renderCell}
           refreshState={refreshState}
-          onHeaderRefresh={(taskPage)=>onHeaderRefreshRequest(taskPage)}
-          onFooterRefresh={(taskPage)=>onFooterRefreshRequest(taskPage)}
+          onHeaderRefresh={onHeaderRefreshRequest}
+          onFooterRefresh={()=>onFooterRefreshRequest(taskPage)}
 
           // 可选
           footerRefreshingText='玩命加载中 >.<'
