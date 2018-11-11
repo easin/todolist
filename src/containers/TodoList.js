@@ -31,7 +31,8 @@ class TodoList extends Component {
   // }
 
   componentDidMount() {
-    this.props.onHeaderRefreshRequest()
+    let page={pageNo:1,pageSize:10}
+    this.props.onHeaderRefreshRequest(page)
   }
 
   // onHeaderRefresh = () => {
@@ -96,7 +97,7 @@ class TodoList extends Component {
   renderCell = (tasks: Object) => {
     return <Cell task={tasks.item} />
   }
-
+  layout=(e)=>{  console.log(e)  }
   render() {
     // taskPage.list
     const { taskPage, noMoreData, refreshState,taskType,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
@@ -104,15 +105,15 @@ class TodoList extends Component {
     console.log('render scene:'+taskPage.list.length);
     const {list}=taskPage;
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={({nativeEvent:e})=>this.layout(e)}>
         <RefreshListView
           style={styles.testStyle}
           data={list}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderCell}
           refreshState={refreshState}
-          onHeaderRefresh={onHeaderRefreshRequest}
-          onFooterRefresh={onFooterRefreshRequest}
+          onHeaderRefresh={(taskPage)=>onHeaderRefreshRequest(taskPage)}
+          onFooterRefresh={(taskPage)=>onFooterRefreshRequest(taskPage)}
 
           // 可选
           footerRefreshingText='玩命加载中 >.<'
