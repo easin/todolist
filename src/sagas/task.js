@@ -22,9 +22,19 @@ export function* handleListTasksRequest(action) {
     //     .catch((err) => {
     //         console.log(err);
     //     })
-    const { data } = yield call(api.listTasksRequest, action.payload);
-    // console.log('yyyyyy->'+data)
-    yield put(actions.listTasksSuccess(data));
+
+    if(action.payload.totalPage > action.payload.pageNo)
+    {
+      action.payload.pageNo=action.payload.pageNo+1;
+      const { data } = yield call(api.listTasksRequest, action.payload);
+      yield put(actions.listTasksSuccess(data));
+    }
+    else 
+    {
+      action.payload.list=[]
+      yield put(actions.listTasksSuccess(action.payload));
+    }
+    
   } catch (error) {
     console.log(error)//尼玛被吃掉了，操蛋
     yield put(actions.listTasksFailure(error));
@@ -58,9 +68,9 @@ export function* handleDelTasksRequest(action) {
 
 export function* handleOnHeaderRefreshRequest(action) {
   try {
-    console.log('handleOnHeaderRefreshRequest xxxxxxY')
+    console.log('7777777')
+    console.log(action.payload)
     const { data } = yield call(api.listTasksRequest, action.payload);
-    // console.log('yyyyyy->'+data)
     yield put(actions.onHeaderRefreshSuccess(data));
   } catch (error) {
     console.log(error)
@@ -69,11 +79,27 @@ export function* handleOnHeaderRefreshRequest(action) {
 }
 export function* handleOnFooterRefreshRequest(action) {
   try {
-    console.log('onFooterRefreshRequest xxxxxxY')
     // if(action.payload)
-    const { data } = yield call(api.listTasksRequest, action.payload);
+    // if(action.payload.totalPage > action.payload.pageNo)
+    // {
+    //   if(action.payload.pageNo==4)
+    //   {
+    //     console.log(1111111111111111)
+    //   }
+    //   action.payload.pageNo=action.payload.pageNo+1;
+    //   const { data } = yield call(api.listTasksRequest, action.payload);
+    //   yield put(actions.onFooterRefreshSuccess(data));
+    // }
+    // else{
+    //   action.payload.list=[];
+    //   const nodata=action.payload;
+    //   yield put(actions.onFooterRefreshSuccess(nodata));
+    // }
+
+     action.payload.list=[];
+      const nodata=action.payload;
+      yield put(actions.onFooterRefreshSuccess(nodata));
     // console.log('yyyyyy->'+data)
-    yield put(actions.onFooterRefreshSuccess(data));
   } catch (error) {
     console.log(error)
     yield put(actions.onFooterRefreshFailure(error));
