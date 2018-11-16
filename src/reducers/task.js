@@ -73,7 +73,7 @@ export default handleActions(
       ...state,
       taskPage: action.payload,
       noMoreData:action.payload.totalPage==action.payload.pageNo,
-      refreshState: action.payload.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle
+      refreshState: state.taskPage.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle
     }),
     [actions.onHeaderRefreshFailure]: (state, action) => ({
       ...state,refreshState: RefreshState.Failure
@@ -85,9 +85,11 @@ export default handleActions(
     }),
     [actions.onFooterRefreshSuccess]: (state, action) => {
       //底部上拉刷新：加上之前的list，合并加载
-      var newTaskPage = state.taskPage;
-      // console.log('------------------------xxxS')
-      // console.log(action.payload)
+     console.log('yyyyxxxxxxxxxxxxxxx')
+
+      console.log(newTaskPage)
+      console.log('------------------------xxxS')
+      console.log(action.payload)
       // console.log('------------------------2S')
       // console.log(state.taskPage)
       // console.log('------------------------3S')
@@ -95,10 +97,10 @@ export default handleActions(
       // console.log('------------------------2')
       const thisTotal=action.payload.list.length+state.taskPage.list.length;
       // console.log("KKKKKxxx"+thisTotal)
-      const refreshFlag=thisTotal>MAX_SIZE? RefreshState.NoMoreData : RefreshState.Idle
+      const refreshFlag= (thisTotal > MAX_SIZE || action.payload.list.length==0) ? RefreshState.NoMoreData : RefreshState.Idle
       // if(thisTotal<MAX_SIZE)
       // {
-      //     newTaskPage.list = _.concat(state.taskPage, newTaskPage.list);
+      //     newTaskPage.list = _.concat(state.taskPage.list, newTaskPage.list);
       //     return ({
       //     ...state,
       //     taskPage: newTaskPage,
@@ -108,27 +110,35 @@ export default handleActions(
       // }
       
       // newTaskPage.list = newTaskPage.list.unshift.apply(newTaskPage.list,state.taskPage.list);
-      // console.log('xxynewTaskPage.list:')
-      // console.log(newTaskPage)
-      console.log('xxxxxx------------------------5')
-      console.log('RefreshState'+refreshFlag)
-      // return ({
-      //           ...state,
-      //           noMoreData:action.payload.totalPage==action.payload.pageNo,
-      //           refreshState: refreshFlag
-      //         });
 
-      if(thisTotal>MAX_SIZE)
+    newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
+    if(newTaskPage.list.length==0)
+    {
+      console.log(22222222)
+    }
+
+      if(thisTotal>MAX_SIZE && action.payload.list.length>0)
       {
         //超过不合并了
-        newTaskPage.list = _.concat(state.taskPage.list, newTaskPage.list);
-      }
-      return ({
+        newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
+          console.log('xxynewTaskPage.list:')
+      console.log(newTaskPage.list)
+        return ({
           ...state,
           taskPage: newTaskPage,
-          noMoreData:action.payload.totalPage==action.payload.pageNo,
           refreshState: refreshFlag
         })
+      }
+      console.log('yyyyxxxxxxxxxxxxxxx')
+
+      console.log(state)
+      return ({
+              ...state,
+              refreshState: refreshFlag
+            });
+    }
+    
+      
       },
     [actions.onFooterRefreshFailure]: (state, action) => ({
       ...state,refreshState: RefreshState.Failure 

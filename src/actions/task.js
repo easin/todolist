@@ -1,5 +1,5 @@
 import { createAction } from "redux-actions";
-export const getTaskRequest = createAction("GET_TASK_REQUEST");
+export const getTaskRequest = createAction("GET_TASK_REQUEST", id => id);
 /*请求时候*/
 export const listTasksRequest = createAction("LIST_TASKS_REQUEST");
 export const addTaskRequest = createAction("ADD_TASK_REQUEST");
@@ -17,10 +17,10 @@ export const delTasksSuccess = createAction("DEL_TASKS_SUCCESS");
 export const delTasksFailure = createAction("DEL_TASKS_FAILURE");
 
 /*TODOLIST 上拉刷新操作*/
-export const onHeaderRefreshRequest = createAction("ON_HEADER_REFRESH_REQUEST");
+export const onHeaderRefreshRequest = createAction("ON_HEADER_REFRESH_REQUEST");//带分页对象
 export const onHeaderRefreshSuccess = createAction("ON_HEADER_REFRESH_SUCCESS");
 export const onHeaderRefreshFailure = createAction("ON_HEADER_REFRESH_FAILURE");
 /*TODOLIST 下拉刷新操作*/
-export const onFooterRefreshRequest = createAction("ON_FOOTER_REFRESH_REQUEST");
+export const onFooterRefreshRequest = createAction("ON_FOOTER_REFRESH_REQUEST");//带分页对象
 export const onFooterRefreshSuccess = createAction("ON_FOOTER_REFRESH_SUCCESS");
 export const onFooterRefreshFailure = createAction("ON_FOOTER_REFRESH_FAILURE");
