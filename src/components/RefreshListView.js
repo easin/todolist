@@ -76,7 +76,7 @@ class RefreshListView extends PureComponent<Props, State> {
     log('[RefreshListView]  onEndReached   ' + info.distanceFromEnd)
 
     if (this.shouldStartFooterRefreshing()) {
-      log('[RefreshListView]  onFooterRefresh')
+      log('[RefreshListView]  onFooterRefresh 还有数据继续出发下拉')
       this.props.onFooterRefresh && this.props.onFooterRefresh(RefreshState.FooterRefreshing)
     }
   }

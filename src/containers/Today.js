@@ -19,7 +19,7 @@ class Today extends React.Component {
         // const Comp = () =>(<TodoList />);
         // return (Comp);
         return (
-          <TodoList/>
+          <TodoList />
          // <View><Text>xxxx</Text></View>
          // <View><</View>
          

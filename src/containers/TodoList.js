@@ -118,7 +118,7 @@ class TodoList extends Component {
           // 可选
           footerRefreshingText='玩命加载中 >.<'
           footerFailureText='我擦嘞，居然失败了 =.=!'
-          footerNoMoreDataText='-我是有底线的-'
+          footerNoMoreDataText='-我是有底线的！-'
           footerEmptyDataText='-好像什么东西都没有-'
         />
       </View>
@@ -153,13 +153,10 @@ const styles = StyleSheet.create({
 //   return bindActionCreators(actionCreators, dispatch);
 // }
 const mapStateToProps = (state, ownProps) => {
-  console.log('ownProps is:')
   // console.log(ownProps)
-  console.log('sssstate is:')
   console.log(state)
   return {
     taskPage:state.task.taskPage, 
-    noMoreData:state.task.noMoreData, 
     refreshState:state.task.refreshState,
     taskType: state.task.taskType
   }

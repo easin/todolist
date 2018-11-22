@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
+import { View, StyleSheet, Platform } from 'react-native'
 import Today from './Today'
 // import TodoListContainer from './TodoList'
 // import TestListPage2 from './TestListPage2'
@@ -32,14 +33,14 @@ export default class TodoListBottomNavigation extends React.Component {
     archive: RecentsRoute,
     my: RecentsRoute,
   });
-
   render() {
     return (
-      <BottomNavigation
+        <BottomNavigation
         navigationState={this.state}
         onIndexChange={this._handleIndexChange}
         renderScene={this._renderScene}
       />
+      
     );
   }
 }

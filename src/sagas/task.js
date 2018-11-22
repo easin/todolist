@@ -68,9 +68,13 @@ export function* handleDelTasksRequest(action) {
 
 export function* handleOnHeaderRefreshRequest(action) {
   try {
-    console.log('7777777')
+    
     console.log(action.payload)
     const { data } = yield call(api.listTasksRequest, action.payload);
+    if(data.list.length==0)
+    {
+      console.log('8888888888')
+    }
     yield put(actions.onHeaderRefreshSuccess(data));
   } catch (error) {
     console.log(error)
