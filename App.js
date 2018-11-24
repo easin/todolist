@@ -29,7 +29,7 @@ export default class App extends Component<Props> {
     return (
       <StoreProvider store={store}>
         <PaperProvider>
-        	<Today />
+        	<TodoListBottomNavigation />
         </PaperProvider>
       </StoreProvider>
       

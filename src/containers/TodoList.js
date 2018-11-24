@@ -14,6 +14,8 @@ import { View, StyleSheet, Text, Platform } from 'react-native'
 import RefreshListView, { RefreshState } from '../components/RefreshListView'
 import Cell  from '../containers/Cell'
 import testData from '../testData/data'
+import {withNavigation} from 'react-navigation' 
+
 
 class TodoList extends Component {
   // state: {
@@ -33,6 +35,11 @@ class TodoList extends Component {
   componentDidMount() {
     let page={pageNo:1,pageSize:10}
     this.props.onHeaderRefreshRequest(page)
+    // console.log(this.props.navigation)
+
+    // console.log(11111111111111)
+    // let task={'name':'yyyyyyyyyy'}
+    // this.props.navigation.navigate('TaskDetail', { ...task });
   }
 
   // onHeaderRefresh = () => {
@@ -94,8 +101,12 @@ class TodoList extends Component {
     return index.toString()
   }
 
+  editTask = (task) => {
+    console.log(222222222222)
+        this.props.navigation.navigate('TaskDetail', { ...task });
+      };
   renderCell = (tasks: Object) => {
-    return <Cell task={tasks.item} />
+    return <Cell task={tasks.item}  onPress={() => this.editTask(tasks.item)} />
   }
   layout=(e)=>{  console.log(e)  }
   render() {
@@ -165,4 +176,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   onHeaderRefreshRequest,onFooterRefreshRequest
 },dispatch)
 // export const TodoListContainer =connect(mapStateToProps, mapDispatchToProps)(TodoList);
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(TodoList)) //withNavigation才会有 navitgaton属性

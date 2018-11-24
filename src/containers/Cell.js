@@ -15,7 +15,9 @@ const color = {
     background: '#f3f3f3'
 }
 
+
 class Cell extends PureComponent {
+
 
     render() {
         console.log('render cell')

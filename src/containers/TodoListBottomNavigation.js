@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Platform } from 'react-native'
-import Today from './Today'
+// import Today from './Today'
+import { TodayStackNav } from '../router'
 // import TodoListContainer from './TodoList'
 // import TestListPage2 from './TestListPage2'
 const MusicRoute = () => <Text>Music</Text>;
@@ -27,7 +28,7 @@ export default class TodoListBottomNavigation extends React.Component {
   _handleIndexChange = index => this.setState({ index });
 
   _renderScene = BottomNavigation.SceneMap({
-    today: Today,
+    today: TodayStackNav,
     week: AlbumsRoute,
     month: RecentsRoute,
     archive: RecentsRoute,
