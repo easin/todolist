@@ -18,84 +18,11 @@ import {withNavigation} from 'react-navigation'
 
 
 class TodoList extends Component {
-  // state: {
-  //   dataList: Array<any>,
-  //   refreshState: number,
-  // }
-
-  // constructor(props) {
-  //   super(props)
-
-  //   this.state = {
-  //     dataList: [],
-  //     refreshState: RefreshState.Idle,
-  //   }
-  // }
 
   componentDidMount() {
     let page={pageNo:1,pageSize:10}
     this.props.onHeaderRefreshRequest(page)
-    // console.log(this.props.navigation)
-
-    // console.log(11111111111111)
-    // let task={'name':'yyyyyyyyyy'}
-    // this.props.navigation.navigate('TaskDetail', { ...task });
   }
-
-  // onHeaderRefresh = () => {
-  //   this.setState({ refreshState: RefreshState.HeaderRefreshing })
-
-  //   // 模拟网络请求
-  //   setTimeout(() => {
-  //     // 模拟网络加载失败的情况
-  //     if (Math.random() < 0.3) {
-  //       this.setState({ refreshState: RefreshState.Failure })
-  //       return
-  //     }
-
-  //     //获取测试数据
-  //     let dataList = this.getTestList(true)
-  //     console.log('------>数据总数：'+dataList.length)
-  //     this.setState({
-  //       dataList: dataList,
-  //       refreshState: dataList.length < 1 ? RefreshState.EmptyData : RefreshState.Idle,
-  //     })
-  //   }, 2000)
-  // }
-
-  // onFooterRefresh = () => {
-  //   this.setState({ refreshState: RefreshState.FooterRefreshing })
-
-  //   // 模拟网络请求
-  //   setTimeout(() => {
-  //     // 模拟网络加载失败的情况
-  //     if (Math.random() < 0.2) {
-  //       this.setState({ refreshState: RefreshState.Failure })
-  //       return
-  //     }
-
-  //     //获取测试数据
-  //     let dataList = this.getTestList(false)
-
-  //     this.setState({
-  //       dataList: dataList,
-  //       refreshState: dataList.length > 50 ? RefreshState.NoMoreData : RefreshState.Idle,
-  //     })
-  //   }, 2000)
-  // }
-
-  // 获取测试数据
-  // getTestList(isReload: boolean): Array<Object> {
-  //   let newList = testData.map((data) => {
-  //     return {
-  //       imageUrl: data.squareimgurl,
-  //       title: data.mname,
-  //       subtitle: `[${data.range}]${data.title}`,
-  //       price: data.price,
-  //     }
-  //   })
-  //   return isReload ? (Math.random() < 0.2 ? [] : newList) : [...this.state.dataList, ...newList]
-  // }
 
   keyExtractor = (item: any, index: number) => {
     return index.toString()
@@ -153,16 +80,6 @@ const styles = StyleSheet.create({
     backgroundColor:'red',
   }
 })
-
-// function mapStateToProps(state) {
-//   return {
-//     state,
-//   };
-// }
-
-// const mapDispatchToProps =function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(actionCreators, dispatch);
-// }
 const mapStateToProps = (state, ownProps) => {
   // console.log(ownProps)
   console.log(state)
