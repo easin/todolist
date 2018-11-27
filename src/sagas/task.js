@@ -13,7 +13,7 @@ export function* handleGetTaskRequest(action) {
 }
 export function* handleListTasksRequest(action) {
   try {
-    console.log('xxxxxxY')
+    // console.log('xxxxxxY')
     // axios.get('http://www.easin.tech:8000/api/task/page')
     //     .then((response) => {
     //         console.log(response.data);

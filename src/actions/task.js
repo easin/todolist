@@ -3,7 +3,7 @@ export const getTaskRequest = createAction("GET_TASK_REQUEST", id => id);
 /*请求时候*/
 export const listTasksRequest = createAction("LIST_TASKS_REQUEST");
 export const addTaskRequest = createAction("ADD_TASK_REQUEST");
-export const updateTasksRequest = createAction("UPDATE_TASKS_REQUEST");
+export const updateTasksRequest = createAction("UPDATE_TASKS_REQUEST"); //新增或者更新
 export const delTasksRequest = createAction("DEL_TASKS_REQUEST");
 export const getTaskSuccess = createAction("GET_TASK_SUCCESS");
 export const getTaskFailure = createAction("GET_TASK_FAILURE");

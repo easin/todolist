@@ -6,7 +6,8 @@ import _ from "lodash";
 const initialState = {
   taskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},
   taskType:'today', //数据暂时取今天的，today,week,hisory
-  refreshState:RefreshState.Idle
+  refreshState:RefreshState.Idle,
+  editTask:{taskName:'',remark:'',userId:'',newRecord:true}
 };
 
 /*

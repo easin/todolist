@@ -2,16 +2,14 @@ import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Platform } from 'react-native'
 // import Today from './Today'
-import { TodayStackNav } from '../router'
-import Week  from './Week'
+import { TodayStackNav,WeekStackNav,ArchiveStackNav } from '../router'
 /*
 Invariant Violation: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
 import Week  from './Week' 只有一个默认导出的时候，不要加中括号
+反正就是导出多个的时候一定要用{},单个的时候最好不要加
+报这个错误的时候，可以尝试加{}，或者去掉{}，反复调试
 */
-import { Archive } from './Archive'
-const MusicRoute = () => <Text>Music</Text>;
 
-const AlbumsRoute = () => <Text>Albums</Text>;
 
 const RecentsRoute = () => <Text>Recents</Text>;
 
@@ -33,9 +31,9 @@ export default class TodoListBottomNavigation extends React.Component {
 
   _renderScene = BottomNavigation.SceneMap({
     today: TodayStackNav,
-    week: Week,
+    week: WeekStackNav,
     month: RecentsRoute,
-    archive: RecentsRoute,
+    archive: ArchiveStackNav,
     my: RecentsRoute,
   });
   render() {
