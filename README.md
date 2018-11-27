@@ -18,3 +18,4 @@ react-native run-android
 #查看日志（必须的，方便调试和打日志）：
 react-native log-android
 rndebuger 给模拟器设置ip，全局走代理，可以发现 package manager的地址10.0.2.2
+[看板pc端技术选型](https://material-ui.com/demos/lists/)
