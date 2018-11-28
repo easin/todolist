@@ -37,8 +37,8 @@ class TodoList extends Component {
     // console.log(222222222222)
         this.props.navigation.navigate('TaskDetail', { ...task });
       };
-  renderCell = (tasks: Object) => {
-    return <Cell task={tasks.item}  onPress={() => this.editTask(tasks.item)} />
+  renderCell = (item: Object,itemIndex:number) => {
+    return <Cell task={item} itemIndex={itemIndex+1} onPress={() => this.editTask(item)} />
   }
   layout=(e)=>{  console.log(e)  }
   render() {
@@ -53,7 +53,7 @@ class TodoList extends Component {
           style={styles.testStyle}
           data={list}
           keyExtractor={this.keyExtractor}
-          renderItem={this.renderCell}
+          renderItem={({item, index}) => this.renderCell(item, index)}
           refreshState={refreshState}
           onHeaderRefresh={onHeaderRefreshRequest}
           onFooterRefresh={()=>onFooterRefreshRequest(taskPage)}

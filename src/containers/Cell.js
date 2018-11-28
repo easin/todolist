@@ -21,15 +21,15 @@ class Cell extends PureComponent {
 
     render() {
         console.log('render cell')
-        // console.log(this.props);
-        let {task} = this.props
-
+        console.log(this.props);
+        let {task,itemIndex} = this.props
+        console.log(task)
         // info.imageUrl = info.imageUrl.replace('w.h', '160.0')
 
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
                  <View style={styles.rightContainer}>
-                    <Text style={styles.h1}>{task.taskName}</Text>
+                    <Text style={styles.h1}>{itemIndex}{task.taskName}</Text>
                     <View>
                     </View>
                     <Text style={styles.p} numberOfLines={0} style={{marginTop: 8}}>{task.taskName}</Text>
@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1,
-        paddingLeft: 20,
-        paddingRight: 10,
     },
     price: {
         color: color.theme

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Platform } from 'react-native'
 // import Today from './Today'
+import My from './My'
 import { TodayStackNav,WeekStackNav,ArchiveStackNav } from '../router'
 /*
 Invariant Violation: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
@@ -30,11 +31,11 @@ export default class TodoListBottomNavigation extends React.Component {
   _handleIndexChange = index => this.setState({ index });
 
   _renderScene = BottomNavigation.SceneMap({
-    today: TodayStackNav,
+    today: My,
     week: WeekStackNav,
-    month: RecentsRoute,
+    month: TodayStackNav,
     archive: ArchiveStackNav,
-    my: RecentsRoute,
+    my: My,
   });
   render() {
     return (
