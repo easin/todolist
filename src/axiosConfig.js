@@ -1,11 +1,11 @@
 import axios from 'axios'
-
+//47.98.161.226  10.0.2.2
 const API_ROOT = process.env.API_ROOT || 'http://47.98.161.226:8000'
 
 axios.defaults.timeout = 3000
 axios.defaults.baseURL = API_ROOT
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-
+// axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent
