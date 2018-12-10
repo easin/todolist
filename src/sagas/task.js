@@ -2,6 +2,7 @@ import { put, call, takeLatest } from "redux-saga/effects";
 import * as actions from "../actions";
 import api from "../api";
 import axios from "../axiosConfig";
+import  {DEFAULT_PAGE as defaultPage}  from '../utils/constants'
 
 export function* handleGetTaskRequest(action) {
   try {
@@ -26,7 +27,8 @@ export function* handleListTasksRequest(action) {
     if(action.payload.totalPage > action.payload.pageNo)
     {
       action.payload.pageNo=action.payload.pageNo+1;
-      const { data } = yield call(api.listTasksRequest, action.payload);
+      const {pageNo,pageSize}=action.payload;
+      const { data } = yield call(api.listTasksRequest, {pageNo:pageNo,pageSize:pageSize});
       yield put(actions.listTasksSuccess(data));
     }
     else 
@@ -77,6 +79,7 @@ export function* handleOnHeaderRefreshRequest(action) {
     }
     yield put(actions.onHeaderRefreshSuccess(data));
   } catch (error) {
+    console.log('888888888811')
     console.log(error)
     yield put(actions.onHeaderRefreshFailure(error));
   }
@@ -100,11 +103,31 @@ export function* handleOnFooterRefreshRequest(action) {
     //   yield put(actions.onFooterRefreshSuccess(nodata));
     // }
 
-     action.payload.list=[];
-      const nodata=action.payload;
-      yield put(actions.onFooterRefreshSuccess(nodata));
+    if(action.payload.totalPage > action.payload.pageNo)
+    {
+      action.payload.pageNo=action.payload.pageNo+1;
+
+      const {pageNo,pageSize}=action.payload;
+      const { data } = yield call(api.listTasksRequest, {pageNo:pageNo,pageSize:pageSize});
+      
+      // const { data } = yield call(api.listTasksRequest, action.payload);
+      yield put(actions.onFooterRefreshSuccess(data));
+    }
+    else 
+    {
+      action.payload.list=[]
+      yield put(actions.onFooterRefreshSuccess(action.payload));
+    }
+
+
+
+
+     // action.payload.list=[];
+     //  const nodata=action.payload;
+     //  yield put(actions.onFooterRefreshSuccess(nodata));
     // console.log('yyyyyy->'+data)
   } catch (error) {
+    console.log(879698797)
     console.log(error)
     yield put(actions.onFooterRefreshFailure(error));
   }

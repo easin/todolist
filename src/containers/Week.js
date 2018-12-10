@@ -15,7 +15,7 @@ class Week extends React.Component {
 
  render() {
         return (
-          <TodoList />
+          <TodoList category={'today'}/>
           // <View><Text>yyyyyyyyy</Text></View>
         )
     }

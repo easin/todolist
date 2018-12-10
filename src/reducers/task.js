@@ -70,10 +70,17 @@ export default handleActions(
     }),
     [actions.onHeaderRefreshSuccess]: (state, action) => 
     {
+
+      if(action.payload.list.length<1||state.taskPage.list.length<1)
+      {
+        console.log(7777777)
+      }
       //这里的问题EmptyData 会清空所有数据
+      let newTaskPage=state.taskPage;
+      // newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
       return ({...state,
       taskPage: action.payload,
-      refreshState: state.taskPage.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle});
+      refreshState: action.payload.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle});
     },
 
     [actions.onHeaderRefreshFailure]: (state, action) => ({
@@ -81,23 +88,49 @@ export default handleActions(
     }),
 
     /*todolist的底部上拉刷新操作等*/
-    [actions.onFooterRefreshRequest]: (state, action) => ({
+    [actions.onFooterRefreshRequest]: (state, action) => {
+      if(action.payload.list.length<1||state.taskPage.list.length<1)
+      {
+        console.log(7777777222)
+      }
+      return ({
       ...state,refreshState: RefreshState.HeaderRefreshing 
-    }),
+    })},
     [actions.onFooterRefreshSuccess]: (state, action) => {
+        console.log(3333)
+        console.log(action.payload)
+        console.log(state)
+        console.log(4444455)
+
+      if(action.payload.list.length<1)
+      {
+      console.log(6666666)
+      console.log(state)
+
+      }
+      if(action.payload.list.length<1||state.taskPage.list.length<1)
+      {
+
+        console.log(999991)
+        console.log(action.payload)
+        console.log(state.taskPage)
+        console.log(99999)
+      }
       //底部上拉刷新：加上之前的list，合并加载
      console.log('yyyyxxxxxxxxxxxxxxx')
-
-      console.log(newTaskPage)
+      let newTaskPage=state.taskPage
+      // console.log(newTaskPage)
       console.log('------------------------xxxS')
       console.log(action.payload)
       // console.log('------------------------2S')
       // console.log(state.taskPage)
       // console.log('------------------------3S')
-      const MAX_SIZE = 60;//最多一百条
+      const MAX_SIZE = 5;//最多一百条
       // console.log('------------------------2')
       const thisTotal=action.payload.list.length+state.taskPage.list.length;
       // console.log("KKKKKxxx"+thisTotal)  || action.payload.list.length==0 NoMoreData
+
+      //EmptyData
       const refreshFlag= (thisTotal > MAX_SIZE) ? RefreshState.EmptyData : RefreshState.Idle
       // if(thisTotal<MAX_SIZE)
       // {
@@ -115,6 +148,10 @@ export default handleActions(
     newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
     if(newTaskPage.list.length==0)
     {
+
+      console.log(111111111)
+      console.log(state.taskPage.list)
+      console.log(action.payload.list)
       console.log(22222222)
     }
 

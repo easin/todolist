@@ -1,6 +1,9 @@
 import axios from "../axiosConfig";
-export const getTaskRequest = params => axios.post(`/api/task/page`, {data:params});
-export const listTasksRequest = params => axios.get(`/api/task/page`, {params:params});
-export const addTaskRequest = params => axios.get(``, {params:params});
-export const updateTasksRequest = params => axios.post(`/api/task/save`, {data:params});
-export const delTasksRequest = params => axios.get(``, {params:params});
+export const getTaskRequest = (data) => axios.post(`/api/task/page`, data);
+// export const listTasksRequest = params => axios.get(`/api/task/page`, {params:params});//有值 ok
+
+export const listTasksRequest = params => axios.post(`/api/task/page`, params);
+
+export const addTaskRequest = (data) => axios.get(``, data);
+export const updateTasksRequest = (data) => axios.post(`/api/task/save`, data);
+export const delTasksRequest = (data) => axios.get(``, data);
