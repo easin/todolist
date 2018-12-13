@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { List,Chip,Button,TextInput, HelperText, withTheme } from 'react-native-paper';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { updateTasksRequest }from '../actions';
 import type { Theme } from 'react-native-paper/types';
 
 class TaskDetail extends Component {
@@ -16,16 +19,23 @@ class TaskDetail extends Component {
 	submitTask()
 	{
 		let task=this.state;
+
 		task.quertType='today';
 		this.props.updateTasksRequest(task); //新增或者更新一条
 	}
 	componentDidMount() {
-	let {taskName,endTime}=this.props.navigation.state.params;
-	this.setState({ taskName:taskName,endTime:endTime })
+		let task = this.props.navigation.state.params;
+		this.setState(task)
+	// let {taskName,endTime}=this.props.navigation.state.params;
+
+	// this.setState({ taskName:taskName})
+	// this.setState(this.props.navigation.state.params)
+	// console.log(this.state)
 	}
   	render() {
-  	let task = this.props.navigation.state.params;
-  	
+  	// let task = this.props.navigation.state.params;
+  	// this.setState(task)
+  	console.log(this.state)
   	
     return (<ScrollView style={[styles.container]}>
 	        <TextInput
@@ -53,7 +63,7 @@ class TaskDetail extends Component {
 	          onChangeText={priorityStr => this.setState({ priorityStr })}
 	        />
 	        </View>
-			<Button mode="contained" onPress={() => {}} style={[styles.button,styles.inputContainerStyle]}>
+			<Button mode="contained" onPress={() => this.submitTask()} style={[styles.button,styles.inputContainerStyle]}>
               保存
             </Button>
 	            <View>
@@ -120,4 +130,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   updateTasksRequest
 },dispatch)
 
-export default withTheme(TaskDetail);
+export default withTheme(connect(null,mapDispatchToProps)(TaskDetail));
