@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {CATE} from '../utils/constants'
 import {
     View,
     Text,
@@ -9,6 +10,7 @@ import TodoList  from './TodoList';
 // <TodoList /><TodoListContainer /> TestListPage2 
 class Today extends React.Component {
   componentDidMount() {
+    console.log('0000000['+CATE.Today+']')
         // this.props.listTasksRequest()
     }
   state = {
@@ -19,7 +21,7 @@ class Today extends React.Component {
         // const Comp = () =>(<TodoList />);
         // return (Comp);
         return (
-          <TodoList />
+          <TodoList category={CATE.Today}/>
          // <View><Text>xxxx</Text></View>
          // <View><</View>
          

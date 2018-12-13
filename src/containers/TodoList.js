@@ -21,11 +21,13 @@ import {withNavigation} from 'react-navigation'
 class TodoList extends Component {
 
   state = {
-    category: 'today',
+    category: 0,
   };
   componentDidMount() {
-    console.log(this.props.category)
-    let page={pageNo:1,pageSize:10}
+    // console.log('1111['+this.props.category+']')
+
+    this.setState({ category:this.props.category })
+    let page={pageNo:1,pageSize:10,category:this.state.category}
     this.props.onHeaderRefreshRequest(page)
   }
 

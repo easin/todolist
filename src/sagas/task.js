@@ -1,5 +1,6 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import * as actions from "../actions";
+import qs from 'qs'
 import api from "../api";
 import axios from "../axiosConfig";
 import  {DEFAULT_PAGE as defaultPage}  from '../utils/constants'
@@ -14,16 +15,6 @@ export function* handleGetTaskRequest(action) {
 }
 export function* handleListTasksRequest(action) {
   try {
-    // console.log('xxxxxxY')
-    // axios.get('http://www.easin.tech:8000/api/task/page')
-    //     .then((response) => {
-    //         console.log(response.data);
-            
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-
     if(action.payload.totalPage > action.payload.pageNo)
     {
       action.payload.pageNo=action.payload.pageNo+1;
@@ -71,12 +62,10 @@ export function* handleDelTasksRequest(action) {
 export function* handleOnHeaderRefreshRequest(action) {
   try {
     
-    console.log(action.payload)
+    console.log('payload:'+JSON.stringify(action.payload)+'----'+qs.stringify(action.payload))
+    // console.log('jjjjjjj'+action.payload)
     const { data } = yield call(api.listTasksRequest, action.payload);
-    if(data.list.length==0)
-    {
-      console.log('8888888888')
-    }
+console.log('8888888888')
     yield put(actions.onHeaderRefreshSuccess(data));
   } catch (error) {
     console.log('888888888811')
