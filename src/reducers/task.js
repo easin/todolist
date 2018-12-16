@@ -2,12 +2,17 @@ import { handleActions } from "redux-actions";
 import * as actions from "../actions";
 import { RefreshState } from '../components/RefreshListView';
 import _ from "lodash";
+import {CATE} from '../utils/constants'
 
 const initialState = {
-  taskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},
-  taskType:'today', //数据暂时取今天的，today,week,hisory
-  refreshState:RefreshState.Idle,
-  editTask:{taskName:'',remark:'',userId:'',newRecord:true}
+
+  // taskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},//防止报错
+  todayTaskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},
+  weekTaskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},
+  archiveTaskPage:{list:[],count:0,pageNo:1,pageSize:20,totalPage:0},
+  todayRefreshState:RefreshState.Idle,
+  weekRefreshState:RefreshState.Idle,
+  archiveRefreshState:RefreshState.Idle,
 };
 
 /*
@@ -65,22 +70,30 @@ export default handleActions(
       ...state
     }),
     /*todolist的头部下拉刷新操作等*/
-    [actions.onHeaderRefreshRequest]: (state, action) => ({
-      ...state,refreshState: RefreshState.HeaderRefreshing 
-    }),
+    [actions.onHeaderRefreshRequest]: (state, action) => {
+      console.log(action.payload.cate)
+
+      console.log('step_data1:'+JSON.stringify(action.payload))
+      switch(action.payload.cate)
+      {
+        case CATE.Today:return {...state,todayRefreshState: RefreshState.HeaderRefreshing};break;
+        case CATE.Week:return {...state,weekRefreshState: RefreshState.HeaderRefreshing};break;
+        case CATE.Archive:return {...state,archiveRefreshState: RefreshState.HeaderRefreshing};break;
+        default: return {...state};
+      }
+    },
     [actions.onHeaderRefreshSuccess]: (state, action) => 
     {
-
-      if(action.payload.list.length<1||state.taskPage.list.length<1)
+//  ok debug,don't delete
+      // console.log('step_data3:'+JSON.stringify(action.payload))
+      let refreshFlag=action.payload.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle;
+      switch(action.payload.cate)
       {
-        console.log(7777777)
+        case CATE.Today:{return {...state,todayTaskPage: action.payload,todayRefreshState: refreshFlag}}
+        case CATE.Week:{return {...state,weekTaskPage: action.payload,weekRefreshState: refreshFlag}}
+        case CATE.Archive:{return {...state,archiveTaskPage: action.payload,archiveRefreshState: refreshFlag}}
+        default: {return {...state};break}
       }
-      //这里的问题EmptyData 会清空所有数据
-      let newTaskPage=state.taskPage;
-      // newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
-      return ({...state,
-      taskPage: action.payload,
-      refreshState: action.payload.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle});
     },
 
     [actions.onHeaderRefreshFailure]: (state, action) => ({
@@ -89,92 +102,56 @@ export default handleActions(
 
     /*todolist的底部上拉刷新操作等*/
     [actions.onFooterRefreshRequest]: (state, action) => {
-      if(action.payload.list.length<1||state.taskPage.list.length<1)
+      switch(action.payload.cate)
       {
-        console.log(7777777222)
+        case CATE.Today:{return {...state,todayRefreshState: RefreshState.HeaderRefreshing }}
+        case CATE.Week:{return {...state,weekRefreshState: RefreshState.HeaderRefreshing }}
+        case CATE.Archive:{return {...state,archiveRefreshState: RefreshState.HeaderRefreshing }}
+        default: {return {...state};break}
       }
-      return ({
-      ...state,refreshState: RefreshState.HeaderRefreshing 
-    })},
+    },
     [actions.onFooterRefreshSuccess]: (state, action) => {
-        console.log(3333)
-        console.log(action.payload)
-        console.log(state)
-        console.log(4444455)
-
-      if(action.payload.list.length<1)
-      {
-      console.log(6666666)
-      console.log(state)
-
-      }
-      if(action.payload.list.length<1||state.taskPage.list.length<1)
-      {
-
-        console.log(999991)
-        console.log(action.payload)
-        console.log(state.taskPage)
-        console.log(99999)
-      }
+        
       //底部上拉刷新：加上之前的list，合并加载
-     console.log('yyyyxxxxxxxxxxxxxxx')
-      let newTaskPage=state.taskPage
-      // console.log(newTaskPage)
-      console.log('------------------------xxxS')
-      console.log(action.payload)
-      // console.log('------------------------2S')
-      // console.log(state.taskPage)
-      // console.log('------------------------3S')
-      const MAX_SIZE = 5;//最多一百条
-      // console.log('------------------------2')
-      const thisTotal=action.payload.list.length+state.taskPage.list.length;
-      // console.log("KKKKKxxx"+thisTotal)  || action.payload.list.length==0 NoMoreData
 
-      //EmptyData
-      const refreshFlag= (thisTotal > MAX_SIZE) ? RefreshState.EmptyData : RefreshState.Idle
-      // if(thisTotal<MAX_SIZE)
-      // {
-      //     newTaskPage.list = _.concat(state.taskPage.list, newTaskPage.list);
-      //     return ({
-      //     ...state,
-      //     taskPage: newTaskPage,
-      //     noMoreData:action.payload.totalPage==action.payload.pageNo,
-      //     refreshState: refreshFlag
-      //   })
-      // }
-      
-      // newTaskPage.list = newTaskPage.list.unshift.apply(newTaskPage.list,state.taskPage.list);
+      let newTaskPage={}
+      const MAX_SIZE = 100;//最多一百条
+      switch(action.payload.cate)
+      {
+        case CATE.Today:{newTaskPage=state.todayTaskPage;break;}
+        case CATE.Week:{newTaskPage=state.weekTaskPage;break;}
+        case CATE.Archive:{newTaskPage=state.archiveTaskPage;break;}
+        default: {newTaskPage=state.todayTaskPage;break;}
+      }
+      // console.log("newTaskPage:"+JSON.stringify(newTaskPage.list))
+      const thisTotal=action.payload.list.length+newTaskPage.list.length;
+      let refreshFlag= (thisTotal > MAX_SIZE) ? RefreshState.NoMoreData : RefreshState.Idle
+     if(action.payload.list.length==0)
+      {
+        refreshFlag=RefreshState.NoMoreData ;
+      }
+      if(refreshFlag === RefreshState.NoMoreData)
+      {
+        switch(action.payload.cate)
+        {
+          case CATE.Today:{return {...state,todayRefreshState: refreshFlag}}
+          case CATE.Week:{return {...state,weekRefreshState: refreshFlag}}
+          case CATE.Archive:{return {...state,archiveRefreshState: refreshFlag}}
+          default: {return {...state};break}
+        }
+      }
 
-    newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
-    if(newTaskPage.list.length==0)
+    //说明是idle
+    newTaskPage.list = _.concat(newTaskPage.list,action.payload.list);
+    console.log('cate-----'+action.payload.cate)
+    switch(action.payload.cate)
     {
-
-      console.log(111111111)
-      console.log(state.taskPage.list)
-      console.log(action.payload.list)
-      console.log(22222222)
+      case CATE.Today:{return {...state,todayTaskPage: newTaskPage,todayRefreshState: refreshFlag};break;}
+      case CATE.Week:{return {...state,weekTaskPage: newTaskPage,weekRefreshState: refreshFlag};break;}
+      case CATE.Archive:{return {...state,archiveTaskPage: newTaskPage,archiveRefreshState: refreshFlag};break;}
+      default: {return {...state};break;}
     }
-
-      // if(thisTotal>MAX_SIZE && action.payload.list.length>0)
-      // {
-      //   //超过不合并了
-      //   newTaskPage.list = _.concat(state.taskPage.list,action.payload.list);
-      //     console.log('xxynewTaskPage.list:')
-      // console.log(newTaskPage.list)
-      //   return ({
-      //     ...state,
-      //     taskPage: newTaskPage,
-      //     refreshState: refreshFlag
-      //   })
-      // }
-      console.log('yyyyxxxxxxxxxxxxxxx')
-
-      console.log(state);
-      return ({
-              ...state,
-              taskPage: newTaskPage,
-              refreshState: refreshFlag
-            });
+    // return {...state};
     },
     [actions.onFooterRefreshFailure]: (state, action) => ({
       ...state,refreshState: RefreshState.Failure 

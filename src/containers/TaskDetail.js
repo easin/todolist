@@ -10,31 +10,25 @@ class TaskDetail extends Component {
 
 
 	state =  {
-		taskName:'',
-		endTime:'',
-		priorityStr:'',
-		tagsStr:''
 	}
 
 	submitTask()
 	{
 		let task=this.state;
-
-		task.quertType='today';
 		this.props.updateTasksRequest(task); //新增或者更新一条
 	}
 	componentDidMount() {
+		//初始化参数到state里
 		let task = this.props.navigation.state.params;
+		let priorityStr="";
+		for(var i=0;i<task.priority&&i<5;i++)
+		{
+			priorityStr+='!';
+		}
+		task.priorityStr=priorityStr;
 		this.setState(task)
-	// let {taskName,endTime}=this.props.navigation.state.params;
-
-	// this.setState({ taskName:taskName})
-	// this.setState(this.props.navigation.state.params)
-	// console.log(this.state)
 	}
   	render() {
-  	// let task = this.props.navigation.state.params;
-  	// this.setState(task)
   	console.log(this.state)
   	
     return (<ScrollView style={[styles.container]}>
@@ -60,7 +54,26 @@ class TaskDetail extends Component {
 	          label="级别"
 	          placeholder="!"
 	          value={this.state.priorityStr}
-	          onChangeText={priorityStr => this.setState({ priorityStr })}
+	          onChangeText={priorityStr => {
+
+	          	if(isNan(priorityStr))
+	          	{
+	          		console.log(56778)
+					this.setState({ priorityStr:priorityStr })
+					this.setState({ priority:priorityStr.length})
+	          	}
+	          	else
+	          	{
+					//数字：
+					let tempPriorityStr="";
+					for(var i=0;i<priorityStr&&i<5;i++)
+					{
+						tempPriorityStr+='!';
+					}
+					this.setState({ priorityStr:tempPriorityStr,priority:priorityStr })
+	          	}
+	          	console.log(this.state)
+	          }}
 	        />
 	        </View>
 			<Button mode="contained" onPress={() => this.submitTask()} style={[styles.button,styles.inputContainerStyle]}>

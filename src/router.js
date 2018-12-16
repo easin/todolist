@@ -1,12 +1,12 @@
 import { createStackNavigator,createAppContainer } from 'react-navigation';
-import Today from './containers/Today'
+import TodayTodoList from './containers/TodayTodoList'
 import Week from './containers/Week'
 import Archive from './containers/Archive'
 import TaskDetail from './containers/TaskDetail'
 import { Appbar } from 'react-native-paper';
 const TodayStack = createStackNavigator({
   Today: {
-    screen: Today,
+    screen: TodayTodoList,
     navigationOptions: {
       title: '今日代办',
     },
