@@ -43,6 +43,7 @@ export function* handleAddTaskRequest(action) {
 }
 export function* handleUpdateTasksRequest(action) {
   try {
+    console.log('payload:'+JSON.stringify(action.payload)+'----'+qs.stringify(action.payload))
     const { data } = yield call(api.updateTasksRequest, action.payload);
     yield put(actions.updateTasksSuccess(data));
   } catch (error) {
@@ -61,51 +62,37 @@ export function* handleDelTasksRequest(action) {
 
 export function* handleOnHeaderRefreshRequest(action) {
   try {
-    
-    console.log('payload:'+JSON.stringify(action.payload)+'----'+qs.stringify(action.payload))
-    // console.log('jjjjjjj'+action.payload)
-    const { data } = yield call(api.listTasksRequest, action.payload);
-console.log('8888888888')
+    let { data } = yield call(api.listTasksRequest, action.payload);
+    console.log('step_data2:'+JSON.stringify(action.payload))
+    data.cate=action.payload.cate;
     yield put(actions.onHeaderRefreshSuccess(data));
   } catch (error) {
-    console.log('888888888811')
     console.log(error)
     yield put(actions.onHeaderRefreshFailure(error));
   }
 }
 export function* handleOnFooterRefreshRequest(action) {
   try {
-    // if(action.payload)
-    // if(action.payload.totalPage > action.payload.pageNo)
-    // {
-    //   if(action.payload.pageNo==4)
-    //   {
-    //     console.log(1111111111111111)
-    //   }
-    //   action.payload.pageNo=action.payload.pageNo+1;
-    //   const { data } = yield call(api.listTasksRequest, action.payload);
-    //   yield put(actions.onFooterRefreshSuccess(data));
-    // }
-    // else{
-    //   action.payload.list=[];
-    //   const nodata=action.payload;
-    //   yield put(actions.onFooterRefreshSuccess(nodata));
-    // }
-
     if(action.payload.totalPage > action.payload.pageNo)
     {
       action.payload.pageNo=action.payload.pageNo+1;
 
       const {pageNo,pageSize}=action.payload;
-      const { data } = yield call(api.listTasksRequest, {pageNo:pageNo,pageSize:pageSize});
-      
+      let { data } = yield call(api.listTasksRequest, {pageNo:pageNo,pageSize:pageSize});
+      data.cate=action.payload.cate;
       // const { data } = yield call(api.listTasksRequest, action.payload);
       yield put(actions.onFooterRefreshSuccess(data));
     }
     else 
     {
-      action.payload.list=[]
-      yield put(actions.onFooterRefreshSuccess(action.payload));
+      // action.payload.list=[]
+
+      newTaskPage={}
+      newTaskPage.list=[];
+      newTaskPage.pageNo=action.payload.pageNo;
+      newTaskPage.pageSize=action.payload.pageSize;
+      newTaskPage.cate=action.payload.cate;
+      yield put(actions.onFooterRefreshSuccess(newTaskPage));
     }
 
 
