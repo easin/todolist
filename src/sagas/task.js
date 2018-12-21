@@ -45,6 +45,8 @@ export function* handleUpdateTasksRequest(action) {
   try {
     console.log('payload:'+JSON.stringify(action.payload)+'----'+qs.stringify(action.payload))
     const { data } = yield call(api.updateTasksRequest, action.payload);
+    data.operateType=action.payload.operateType;
+    console.log('udpatedata'+JSON.stringify(data));
     yield put(actions.updateTasksSuccess(data));
   } catch (error) {
     yield put(actions.updateTasksFailure(error));
@@ -94,14 +96,6 @@ export function* handleOnFooterRefreshRequest(action) {
       newTaskPage.cate=action.payload.cate;
       yield put(actions.onFooterRefreshSuccess(newTaskPage));
     }
-
-
-
-
-     // action.payload.list=[];
-     //  const nodata=action.payload;
-     //  yield put(actions.onFooterRefreshSuccess(nodata));
-    // console.log('yyyyyy->'+data)
   } catch (error) {
     console.log(879698797)
     console.log(error)

@@ -3,6 +3,7 @@ import * as actions from "../actions";
 import { RefreshState } from '../components/RefreshListView';
 import _ from "lodash";
 import {CATE} from '../utils/constants'
+import {deepCopy} from '../utils/utils'
 
 const initialState = {
 
@@ -57,9 +58,39 @@ export default handleActions(
     [actions.addTaskFailure]: (state, action) => ({
       ...state
     }),
-    [actions.updateTasksSuccess]: (state, action) => ({
-      ...state
-    }),
+    [actions.updateTasksSuccess]: (state, action) => {
+      console.log('updateTasksSuccess action:'+JSON.stringify(action.payload));
+      switch(action.payload.operateType)
+      {
+        case 'cate':{
+          let todayList=state.todayTaskPage.list;
+          let weekList=state.weekTaskPage.list;
+          if(action.payload.cate == CATE.Today)
+          {
+            todayList=_.concat(todayList, action.payload.object);
+            weekList=_.dropWhile(weekList, function(t) { return t.id==action.payload.object.id; });
+          }
+          else
+          {
+            weekList=_.concat(weekList, action.payload.object);
+            todayList=_.dropWhile(todayList, function(t) { return t.id == action.payload.object.id; });
+             console.log('updateTasksSuccess todayList:'+JSON.stringify(todayList));
+          }
+          //page count ignore, I don't cate
+          let {todayTaskPage,weekTaskPage}=state;
+          todayTaskPage.list=todayList;
+          weekTaskPage.list=weekList;
+
+          // let newTodayTaskPage=JSON.parse(JSON.stringify(todayTaskPage));
+          // let newTodayTaskPage={list:[],count:0,pageNo:1,pageSize:20,totalPage:0};
+          // console.log('xxxxxxxxxx'+JSON.stringify(todayList))
+          return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage)),weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};}
+        case 'archive':{
+          ;break;}
+        case 'done':{;break;}
+        default : return {...state}
+      }
+    },
     [actions.updateTasksFailure]: (state, action) => ({
       ...state
     }),

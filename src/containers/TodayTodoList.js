@@ -7,7 +7,7 @@
 //  https://github.com/huanxsd/react-native-refresh-list-view
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { onHeaderRefreshRequest, onFooterRefreshRequest, }from '../actions';
+import { onHeaderRefreshRequest, onFooterRefreshRequest,updateTasksSuccess }from '../actions';
 
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Platform } from 'react-native'
@@ -22,7 +22,7 @@ class TodayTodoList extends Component {
 
   state = {
     cate: CATE.Today,
-  };
+  }
   componentDidMount() {
     let page={pageNo:1,pageSize:10,cate:this.state.cate}
     this.props.onHeaderRefreshRequest(page)
@@ -49,6 +49,17 @@ class TodayTodoList extends Component {
   // console.log('todaystate---:'+JSON.stringify(todayTaskPage))
     // console.log('render scene:'+todayTaskPage.pageNo);
     const {list}=todayTaskPage;
+
+        // this.props
+        let check;
+        if(0)
+        {
+          check=(<FAB small icon="check" style={styles.fab1} onPress={() => {}} />);
+        }
+        else
+        {
+          check=(<FAB small icon="playlist-add-check" style={styles.fab1} onPress={() => {}} />);
+        }
     return (
       <View style={styles.container} >
         <RefreshListView
@@ -66,7 +77,8 @@ class TodayTodoList extends Component {
           footerNoMoreDataText='-我是有底线的！-'
           footerEmptyDataText='-好像什么东西都没有-'
         />
-        <FAB icon="add" onPress={() => this.addNewTask()} style={styles.fab} />
+        {check}
+        <FAB small icon="add" onPress={() => this.addNewTask()} style={styles.fab} />
       </View>
     )
   }
@@ -92,6 +104,11 @@ const styles = StyleSheet.create({
     right: 16,
     bottom: 28,
   },
+  fab1: {
+    position: 'absolute',
+    right: 16,
+    top: 28,
+  },
 })
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -100,7 +117,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHeaderRefreshRequest,onFooterRefreshRequest
+  onHeaderRefreshRequest,onFooterRefreshRequest,updateTasksSuccess
 },dispatch)
-// export const TodoListContainer =connect(mapStateToProps, mapDispatchToProps)(TodoList);
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(TodayTodoList)) //withNavigation才会有 navitgaton属性
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(TodayTodoList))
