@@ -50,15 +50,25 @@ class TaskDetail extends Component {
 	        />
 
 	        <TextInput
-	          style={[styles.inputContainerStyle,styles.w50]}
+	          style={[styles.inputContainerStyle,styles.w25]}
 	          label="级别"
 	          placeholder="!"
 	          value={this.state.priorityStr}
 	          onChangeText={priorityStr => {
 
-	          	if(isNan(priorityStr))
-	          	{
-	          		console.log(56778)
+	          	if(isNaN(priorityStr))
+	          	{ //非数字：
+	          		// console.log(56778)
+	    //       		let tempPriorityStr="";
+	    //       		let tempPriority=parseFloat(priorityStr)
+
+
+					// for(var i=0;i<tempPriority&&i<5;i++)
+					// {
+					// 	tempPriorityStr+='!';
+					// }
+					// this.setState({ priorityStr:tempPriorityStr,priority:priorityStr })
+
 					this.setState({ priorityStr:priorityStr })
 					this.setState({ priority:priorityStr.length})
 	          	}
@@ -74,6 +84,14 @@ class TaskDetail extends Component {
 	          	}
 	          	console.log(this.state)
 	          }}
+	        />
+
+	        <TextInput
+	          style={[styles.inputContainerStyle,styles.w25]}
+	          label="Sort"
+	          placeholder="Sort"
+	          value={this.state.sort}
+	          onChangeText={sort => this.setState({ sort })}
 	        />
 	        </View>
 			<Button mode="contained" onPress={() => this.submitTask()} style={[styles.button,styles.inputContainerStyle]}>
@@ -133,6 +151,10 @@ const styles = StyleSheet.create({
   },
   w50: {
     flex: 0.5,
+  },
+
+  w25: {
+    flex: 0.25,
   },
   chip: {
     margin: 4,
