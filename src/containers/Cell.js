@@ -61,10 +61,12 @@ toggleDone(task)
         let weekIconColor = task.cate===CATE.Week?Colors.deepPurple800:Colors.grey900;
         let archivedColor = task.isArchived==1?Colors.deepPurple800:Colors.grey900;
         let doneColor = task.status==1?Colors.deepPurple800:Colors.grey900;
+        let taskText=task.status==0?(<Text style={styles.p}>{itemIndex}. {task.taskName}</Text>):(<Text style={[styles.p,styles.finished]}>{itemIndex}. {task.taskName}</Text>);
+
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
                  <View style={styles.taskContainer}>
-                    <Text style={styles.p}>{itemIndex}. {task.taskName}</Text>
+                    {taskText}
                     <View style={[styles.operateContainer]}>
                          <IconButton icon="format-list-numbered" size={18} color={todayIconColor} onPress={() => this.toggleCate(task,CATE.Today)} />
                          <IconButton icon="date-range" size={18} color={weekIconColor} onPress={() => this.toggleCate(task,CATE.Week)} />

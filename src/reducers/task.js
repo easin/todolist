@@ -66,16 +66,19 @@ export default handleActions(
         case 'cate':{
           let todayList=state.todayTaskPage.list;
           let weekList=state.weekTaskPage.list;
-          if(action.payload.cate == CATE.Today)
+          if(action.payload.object.cate == CATE.Today) //0->1  0
           {
             todayList=_.concat(todayList, action.payload.object);
-            weekList=_.dropWhile(weekList, function(t) { return t.id == action.payload.object.id; });
+            _.remove(weekList, function(t) { return t.id == action.payload.object.id; });
           }
           else
           {
             weekList=_.concat(weekList, action.payload.object);
-            todayList=_.dropWhile(todayList, function(t) { return t.id == action.payload.object.id; });
-             console.log('updateTasksSuccess todayList:'+JSON.stringify(todayList));
+            _.remove(todayList, function(t) { return t.id == action.payload.object.id; });
+            //var todayList2=_.remove(todayList, function(t) { return t.id == action.payload.object.id; });
+            //console.log('updateTasksSuccess todayList:'+JSON.stringify(todayList));
+            //todayList2 是删除的元素
+
           }
           let {todayTaskPage,weekTaskPage}=state;
           todayTaskPage.list=todayList;
