@@ -24,34 +24,28 @@ const color = {
 
   
 class Cell extends PureComponent {
-     state = {
-  }
 componentDidMount(){
-    console.log('cell render0 didmount:'+JSON.stringify(this.state))
-    let {task,itemIndex} = this.props;
-    this.setState(task);
+    // console.log('cell render0 didmount:'+JSON.stringify(task))
+    // let {task,itemIndex} = this.props;
   }
 //切换分类，数据跑到另一个tab
-toggleCate(cate)
+toggleCate(task,cate)
 {
-    if(this.state.cate != cate)
+    if(task.cate != cate)
     {
-        let params={cate:cate,id:this.state.id,operateType:'cate'}
+        let params={cate:cate,id:task.id,operateType:'cate'}
         this.props.updateTasksRequest(params);
     }
 }  
 //切换归档，数据跑到另一个tab
-toggleArchive(){
-        let params={isArchived:(this.state.isArchived+1)%2,id:this.state.id,operateType:'archive'}
+toggleArchive(task){
+        let params={isArchived:(task.isArchived+1)%2,id:task.id,operateType:'archive'}
         this.props.updateTasksRequest(params);
-        let {task,itemIndex} = this.props;
-        this.setState(task);
-
 }
 
-toggleDone()
+toggleDone(task)
 {
-    let params={state:(this.state.state+1)%2,id:this.state.id,operateType:'done'}
+    let params={state:(task.state+1)%2,id:task.id,operateType:'done'}
     this.props.updateTasksRequest(params);
 }
     render() {
@@ -59,23 +53,23 @@ toggleDone()
         // console.log(this.props);//{task: Object, itemIndex: 7, onPress: function}
         let {task,itemIndex} = this.props
 
-    console.log('cell render:'+itemIndex+JSON.stringify(this.state))
+    console.log('cell render:'+itemIndex+JSON.stringify(task))
 // <View><Text style={[styles.h1, styles.highlight]}>{task.endTime}</Text></View> //时间暂时不加
         // let today=task.cate===CATE.Today?(<IconButton icon="format-list-numbered" size={18} onPress={() => {}} />)
         // <Text style={styles.p} numberOfLines={0} style={{marginTop: 8}}>{task.taskName}</Text>
-        let todayIconColor = this.state.cate===CATE.Today?Colors.deepPurple800:Colors.grey900;
-        let weekIconColor = this.state.cate===CATE.Week?Colors.deepPurple800:Colors.grey900;
-        let archivedColor = this.state.isArchived==1?Colors.deepPurple800:Colors.grey900;
-        let doneColor = this.state.status==1?Colors.deepPurple800:Colors.grey900;
+        let todayIconColor = task.cate===CATE.Today?Colors.deepPurple800:Colors.grey900;
+        let weekIconColor = task.cate===CATE.Week?Colors.deepPurple800:Colors.grey900;
+        let archivedColor = task.isArchived==1?Colors.deepPurple800:Colors.grey900;
+        let doneColor = task.status==1?Colors.deepPurple800:Colors.grey900;
         return (
             <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
                  <View style={styles.taskContainer}>
                     <Text style={styles.p}>{itemIndex}. {task.taskName}</Text>
                     <View style={[styles.operateContainer]}>
-                         <IconButton icon="format-list-numbered" size={18} color={todayIconColor} onPress={() => this.toggleCate(CATE.Today)} />
-                         <IconButton icon="date-range" size={18} color={weekIconColor} onPress={() => this.toggleCate(CATE.Week)} />
-                         <IconButton icon="archive" size={18} color={archivedColor} onPress={() => this.toggleArchive()} />
-                         <IconButton icon="done" size={18} color={doneColor} onPress={() => this.toggleDone()} />
+                         <IconButton icon="format-list-numbered" size={18} color={todayIconColor} onPress={() => this.toggleCate(task,CATE.Today)} />
+                         <IconButton icon="date-range" size={18} color={weekIconColor} onPress={() => this.toggleCate(task,CATE.Week)} />
+                         <IconButton icon="archive" size={18} color={archivedColor} onPress={() => this.toggleArchive(task)} />
+                         <IconButton icon="done" size={18} color={doneColor} onPress={() => this.toggleDone(task)} />
                     </View>
                 </View>
             </TouchableOpacity>
