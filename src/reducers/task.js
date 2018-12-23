@@ -14,6 +14,7 @@ const initialState = {
   todayRefreshState:RefreshState.Idle,
   weekRefreshState:RefreshState.Idle,
   archiveRefreshState:RefreshState.Idle,
+  isFinished:1
 };
 
 /*
@@ -68,7 +69,7 @@ export default handleActions(
           if(action.payload.cate == CATE.Today)
           {
             todayList=_.concat(todayList, action.payload.object);
-            weekList=_.dropWhile(weekList, function(t) { return t.id==action.payload.object.id; });
+            weekList=_.dropWhile(weekList, function(t) { return t.id == action.payload.object.id; });
           }
           else
           {
@@ -76,14 +77,9 @@ export default handleActions(
             todayList=_.dropWhile(todayList, function(t) { return t.id == action.payload.object.id; });
              console.log('updateTasksSuccess todayList:'+JSON.stringify(todayList));
           }
-          //page count ignore, I don't cate
           let {todayTaskPage,weekTaskPage}=state;
           todayTaskPage.list=todayList;
           weekTaskPage.list=weekList;
-
-          // let newTodayTaskPage=JSON.parse(JSON.stringify(todayTaskPage));
-          // let newTodayTaskPage={list:[],count:0,pageNo:1,pageSize:20,totalPage:0};
-          // console.log('xxxxxxxxxx'+JSON.stringify(todayList))
           return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage)),weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};}
         case 'archive':{
           ;break;}

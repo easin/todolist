@@ -27,6 +27,7 @@ class Cell extends PureComponent {
      state = {
   }
 componentDidMount(){
+    console.log('cell render0 didmount:'+JSON.stringify(this.state))
     let {task,itemIndex} = this.props;
     this.setState(task);
   }
@@ -43,6 +44,9 @@ toggleCate(cate)
 toggleArchive(){
         let params={isArchived:(this.state.isArchived+1)%2,id:this.state.id,operateType:'archive'}
         this.props.updateTasksRequest(params);
+        let {task,itemIndex} = this.props;
+        this.setState(task);
+
 }
 
 toggleDone()
@@ -51,8 +55,11 @@ toggleDone()
     this.props.updateTasksRequest(params);
 }
     render() {
+
         // console.log(this.props);//{task: Object, itemIndex: 7, onPress: function}
         let {task,itemIndex} = this.props
+
+    console.log('cell render:'+itemIndex+JSON.stringify(this.state))
 // <View><Text style={[styles.h1, styles.highlight]}>{task.endTime}</Text></View> //时间暂时不加
         // let today=task.cate===CATE.Today?(<IconButton icon="format-list-numbered" size={18} onPress={() => {}} />)
         // <Text style={styles.p} numberOfLines={0} style={{marginTop: 8}}>{task.taskName}</Text>

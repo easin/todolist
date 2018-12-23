@@ -40,6 +40,7 @@ class TodayTodoList extends Component {
         this.props.navigation.navigate('TaskDetail', { ...task });
       } 
   renderCell = (item: Object,itemIndex:number) => {
+    console.log('Cell:'+JSON.stringify(item)+'----'+itemIndex)
     return <Cell task={item} itemIndex={itemIndex+1} onPress={() => this.editTask(item)} />
   }
   render() {
@@ -50,16 +51,16 @@ class TodayTodoList extends Component {
     // console.log('render scene:'+todayTaskPage.pageNo);
     const {list}=todayTaskPage;
 
-        // this.props
-        let check;
-        if(0)
-        {
-          check=(<FAB small icon="check" style={styles.fab1} onPress={() => {}} />);
-        }
-        else
-        {
-          check=(<FAB small icon="playlist-add-check" style={styles.fab1} onPress={() => {}} />);
-        }
+    // this.props
+    let check;
+    if(0)
+    {
+      check=(<FAB small icon="check" style={styles.fab1} onPress={() => {}} />);
+    }
+    else
+    {
+      check=(<FAB small icon="playlist-add-check" style={styles.fab1} onPress={() => {}} />);
+    }
     return (
       <View style={styles.container} >
         <RefreshListView
