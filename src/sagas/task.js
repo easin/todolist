@@ -76,12 +76,13 @@ export function* handleOnHeaderRefreshRequest(action) {
 }
 export function* handleOnFooterRefreshRequest(action) {
   try {
+    console.log('moremore:'+JSON.stringify(action.payload))
     if(action.payload.totalPage > action.payload.pageNo)
     {
       action.payload.pageNo=action.payload.pageNo+1;
 
-      const {pageNo,pageSize}=action.payload;
-      let { data } = yield call(api.listTasksRequest, {pageNo:pageNo,pageSize:pageSize});
+      // const {pageNo,pageSize}=action.payload;
+      let { data } = yield call(api.listTasksRequest, action.payload);
       data.cate=action.payload.cate;
       // const { data } = yield call(api.listTasksRequest, action.payload);
       yield put(actions.onFooterRefreshSuccess(data));

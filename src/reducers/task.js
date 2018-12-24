@@ -14,7 +14,7 @@ const initialState = {
   todayRefreshState:RefreshState.Idle,
   weekRefreshState:RefreshState.Idle,
   archiveRefreshState:RefreshState.Idle,
-  isFinished:1,//0未完成，1已完成，2所有
+  isFinished:2,//0未完成，1已完成，2所有
   isArchived:1,//0未归档1，归档，2所有
 };
 
@@ -23,6 +23,9 @@ reducers，才有资格修正数据，调整数据，准备数据给ui
 */
 export default handleActions(
   {
+    [actions.toggleShowFinishedRequest]: (state, action) => ({
+      ...state,isFinished:action.payload
+    }),
     [actions.getTaskRequest]: (state, action) => ({
       ...state
     }),
@@ -315,6 +318,8 @@ export default handleActions(
 
     //说明是idle
     newTaskPage.list = _.concat(newTaskPage.list,action.payload.list);
+    newTaskPage.pageNo=action.payload.pageNo;
+    newTaskPage.totalPage=action.payload.totalPage;
     console.log('cate-----'+action.payload.cate)
     switch(action.payload.cate)
     {
