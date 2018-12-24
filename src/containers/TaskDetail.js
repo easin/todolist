@@ -14,8 +14,9 @@ class TaskDetail extends Component {
 
 	submitTask()
 	{
-		let task=this.state;
-		this.props.updateTasksRequest(task); //新增或者更新一条
+		let params=this.state;
+		// params.operateType
+		this.props.updateTasksRequest({...params,operateType:'edit'}); //新增或者更新一条
 	}
 	componentDidMount() {
 		//初始化参数到state里
@@ -26,6 +27,7 @@ class TaskDetail extends Component {
 			priorityStr+='!';
 		}
 		task.priorityStr=priorityStr;
+		task.sortStr=task.sort+''
 		this.setState(task)
 	}
   	render() {
@@ -69,8 +71,7 @@ class TaskDetail extends Component {
 					// }
 					// this.setState({ priorityStr:tempPriorityStr,priority:priorityStr })
 
-					this.setState({ priorityStr:priorityStr })
-					this.setState({ priority:priorityStr.length})
+					this.setState({ priorityStr:priorityStr,priority:priorityStr.length })
 	          	}
 	          	else
 	          	{
@@ -90,8 +91,8 @@ class TaskDetail extends Component {
 	          style={[styles.inputContainerStyle,styles.w25]}
 	          label="Sort"
 	          placeholder="Sort"
-	          value={this.state.sort}
-	          onChangeText={sort => this.setState({ sort })}
+	          value={this.state.sortStr}
+	          onChangeText={sortStr => this.setState({ sortStr:sortStr,sort:parseInt(sortStr) })}
 	        />
 	        </View>
 			<Button mode="contained" onPress={() => this.submitTask()} style={[styles.button,styles.inputContainerStyle]}>

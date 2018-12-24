@@ -24,8 +24,10 @@ class TodayTodoList extends Component {
     cate: CATE.Today,
   }
   componentDidMount() {
-    let page={pageNo:1,pageSize:10,cate:this.state.cate}
-    this.props.onHeaderRefreshRequest(page)
+    let params={pageNo:1,pageSize:10,cate:this.state.cate}
+    let {isFinished}=this.props;
+    // if(isFinished == 2)//留给后台处理
+    this.props.onHeaderRefreshRequest({...params,isFinished:isFinished,})
   }
 
   keyExtractor = (item: any, index: number) => {
@@ -34,13 +36,13 @@ class TodayTodoList extends Component {
   addNewTask ()
   {
     let task={newRecord:true}
-    this.props.navigation.navigate('TaskDetail', { ...task });
+    this.props.navigation.navigate('TaskDetail', { ...task,catePage:CATE.Today });
   }
   editTask = (task) => {
-        this.props.navigation.navigate('TaskDetail', { ...task });
+        this.props.navigation.navigate('TaskDetail', { ...task,catePage:CATE.Today });
       } 
   renderCell = (item: Object,itemIndex:number) => {
-    console.log('Cell:'+JSON.stringify(item)+'----'+itemIndex)
+    // console.log('Cell:'+JSON.stringify(item)+'----'+itemIndex)
     return <Cell task={item} itemIndex={itemIndex+1} onPress={() => this.editTask(item)} />
   }
   render() {
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     todayTaskPage:state.task.todayTaskPage, 
+    isFinished:state.task.isFinished,
     todayRefreshState:state.task.todayRefreshState,
   }
 }

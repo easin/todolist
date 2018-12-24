@@ -23,3 +23,7 @@ rndebuger 给模拟器设置ip，全局走代理，可以发现 package manager�
 [看板pc端技术选型](https://material-ui.com/demos/lists/)
 
 https://material.io/tools/icons/?icon=format_list_numbered&style=baseline rn的图标可以来这里找
+
+java_home 的bin路径下执行：
+
+keytool -genkey -v -keystore /opt/my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 100000

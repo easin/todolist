@@ -46,8 +46,8 @@ export function* handleUpdateTasksRequest(action) {
     console.log('payload:'+JSON.stringify(action.payload)+'----'+qs.stringify(action.payload))
     let { data } = yield call(api.updateTasksRequest, action.payload);
     data.operateType=action.payload.operateType;
-    // date.cate=
-    console.log('udpatedata'+JSON.stringify(data));
+    data.catePage=action.payload.catePage;
+    // console.log('udpatedata'+JSON.stringify(data));
     yield put(actions.updateTasksSuccess(data));
   } catch (error) {
     yield put(actions.updateTasksFailure(error));

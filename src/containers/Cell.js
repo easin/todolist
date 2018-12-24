@@ -33,19 +33,21 @@ toggleCate(task,cate)
 {
     if(task.cate != cate)
     {
-        let params={cate:cate,id:task.id,operateType:'cate'}
+        let params={cate:cate,id:task.id,operateType:'cate',catePage:CATE.Today}
         this.props.updateTasksRequest(params);
     }
 }  
 //切换归档，数据跑到另一个tab
 toggleArchive(task){
-        let params={isArchived:(task.isArchived+1)%2,id:task.id,operateType:'archive'}
+        let params={isArchived:(task.isArchived+1)%2,id:task.id,operateType:'archive',catePage:CATE.Today}
         this.props.updateTasksRequest(params);
 }
 
 toggleDone(task)
 {
-    let params={state:(task.state+1)%2,id:task.id,operateType:'done'}
+    let params={'status':(task.status+1)%2,id:task.id,operateType:'done',catePage:CATE.Today}
+    
+    // console.log('this task:'+JSON.stringify(params))
     this.props.updateTasksRequest(params);
 }
     render() {
@@ -53,7 +55,7 @@ toggleDone(task)
         // console.log(this.props);//{task: Object, itemIndex: 7, onPress: function}
         let {task,itemIndex} = this.props
 
-    console.log('cell render:'+itemIndex+JSON.stringify(task))
+    // console.log('cell render:'+itemIndex+JSON.stringify(task))
 // <View><Text style={[styles.h1, styles.highlight]}>{task.endTime}</Text></View> //时间暂时不加
         // let today=task.cate===CATE.Today?(<IconButton icon="format-list-numbered" size={18} onPress={() => {}} />)
         // <Text style={styles.p} numberOfLines={0} style={{marginTop: 8}}>{task.taskName}</Text>
@@ -71,7 +73,7 @@ toggleDone(task)
                          <IconButton icon="format-list-numbered" size={18} color={todayIconColor} onPress={() => this.toggleCate(task,CATE.Today)} />
                          <IconButton icon="date-range" size={18} color={weekIconColor} onPress={() => this.toggleCate(task,CATE.Week)} />
                          <IconButton icon="archive" size={18} color={archivedColor} onPress={() => this.toggleArchive(task)} />
-                         <IconButton icon="done" size={18} color={doneColor} onPress={() => this.toggleDone(task)} />
+                         <IconButton icon={task.status==1?'done':'hourglass-empty'} size={18} color={doneColor} onPress={() => this.toggleDone(task)} />
                     </View>
                 </View>
             </TouchableOpacity>

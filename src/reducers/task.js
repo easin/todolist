@@ -14,7 +14,8 @@ const initialState = {
   todayRefreshState:RefreshState.Idle,
   weekRefreshState:RefreshState.Idle,
   archiveRefreshState:RefreshState.Idle,
-  isFinished:1
+  isFinished:1,//0未完成，1已完成，2所有
+  isArchived:1,//0未归档1，归档，2所有
 };
 
 /*
@@ -63,6 +64,42 @@ export default handleActions(
       console.log('updateTasksSuccess action:'+JSON.stringify(action.payload));
       switch(action.payload.operateType)
       {
+
+        case 'edit':{
+          console.log('t1');
+          let todayList=state.todayTaskPage.list
+          let weekList=state.weekTaskPage.list;
+          let archiveList=state.archiveTaskPage.list;
+
+          let todayIdx=_.findIndex(todayList, { id:action.payload.object.id });
+          let weekIdx=_.findIndex(weekList, { id:action.payload.object.id });
+          let archiveIdx=_.findIndex(archiveList, { id:action.payload.object.id });
+
+          if(todayIdx>0)
+          {
+            todayList[todayIdx]=action.payload.object;
+            let {todayTaskPage}=state;
+            todayTaskPage.list=todayList;
+            console.log('ttt:'+JSON.stringify(todayTaskPage))
+            return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage))};
+          }
+          else if(weekIdx>0)
+          {
+            weekList[weekIdx]=action.payload.object;
+            let {weekTaskPage}=state;
+            weekTaskPage.list=weekList;
+            return {...state,weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};
+          }
+          else
+          {
+            archiveList[archiveIdx]=action.payload.object;
+            let {archiveTaskPage}=state;
+            archiveTaskPage.list=archiveList;
+            return {...state,archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
+          }
+
+
+        }
         case 'cate':{
           let todayList=state.todayTaskPage.list;
           let weekList=state.weekTaskPage.list;
@@ -85,8 +122,113 @@ export default handleActions(
           weekTaskPage.list=weekList;
           return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage)),weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};}
         case 'archive':{
+          // console.log(11111)
+            switch(action.payload.catePage)
+            {
+              case CATE.Today :{
+                let todayList=state.todayTaskPage.list;
+                let archiveList=state.archiveTaskPage.list;
+                // console.log('--->'+todayList.length)//虽然是undefined但是还是有值的
+                // console.log(todayList)
+                if(action.payload.object.isArchived==0)//未归档
+                {
+                   _.remove(todayList, function(t) { return t.id == action.payload.object.id; });
+                  todayList=_.concat([action.payload.object],todayList);
+                  _.remove(archiveList, function(t) { return t.id == action.payload.object.id; });
+                }
+                else
+                {
+                  archiveList=_.concat([action.payload.object],archiveList);
+                  _.remove(todayList, function(t) { return t.id == action.payload.object.id; });
+                }
+                let {todayTaskPage,archiveTaskPage}=state;
+                todayTaskPage.list=todayList;
+                archiveTaskPage.list=archiveList;
+                return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage)),archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
+              }
+              case CATE.Week :{
+                let weekList=state.weekTaskPage.list;
+                let archiveList=state.archiveTaskPage.list;
+                if(action.payload.object.isArchived==0)//未归档
+                {
+                  weekList=_.concat([action.payload.object],weekList);
+                  _.remove(archiveList, function(t) { return t.id == action.payload.object.id; });
+                }
+                else
+                {
+                  archiveList=_.concat([action.payload.object],archiveList);
+                  _.remove(weekList, function(t) { return t.id == action.payload.object.id; });
+                }
+                let {weekTaskPage,archiveTaskPage}=state;
+                weekTaskPage.list=weekList;
+                archiveTaskPage.list=archiveList;
+                return {...state,weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage)),archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
+                
+              }
+              default :{
+                let archiveList=state.archiveTaskPage.list;
+
+                if(action.payload.object.isArchived==0)//未归档
+                {
+                  _.remove(archiveList, function(t) { return t.id == action.payload.object.id; });
+                }
+                else
+                {
+                  archiveList=_.concat([action.payload.object],archiveList);
+                }
+                _.remove(weekList, function(t) { return t.id == action.payload.object.id; });
+                let {archiveTaskPage}=state;
+                archiveTaskPage.list=archiveList;
+                return {...state,archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
+              }
+
+
+          }
+        }
+        case 'done' :{
+            switch(action.payload.catePage)
+            {
+              case CATE.Today :{
+                let todayList=state.todayTaskPage.list;
+                _.each(todayList, function(a, idx){
+                  if(a.id==action.payload.object.id){
+                    todayList[idx] = action.payload.object;
+                    return false;//不要继续
+                  }
+                });
+                let {todayTaskPage}=state;
+                todayTaskPage.list=todayList;
+                return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage))};
+              }
+              case CATE.Week :{
+                let weekList=state.weekTaskPage.list;
+                _.each(weekList, function(a, idx){
+                  if(a.id==action.payload.object.id){
+                    weekList[idx] = action.payload.object;
+                    return false;//不要继续
+                  }
+                });
+                let {weekTaskPage}=state;
+                weekTaskPage.list=todayList;
+                return {...state,weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};
+              }
+              default :{
+                let archiveList=state.archiveTaskPage.list;
+                _.each(archiveList, function(a, idx){
+                  if(a.id==action.payload.object.id){
+                    archiveList[idx] = action.payload.object;
+                    return false;//不要继续
+                  }
+                });
+                let {archiveTaskPage}=state;
+                archiveTaskPage.list=archiveList;
+                return {...state,archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
+              }
+            }
           ;break;}
-        case 'done':{;break;}
+
+
+
         default : return {...state}
       }
     },
