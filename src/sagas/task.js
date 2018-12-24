@@ -1,4 +1,4 @@
-import { put, fork,call,takeEvery, takeLatest } from "redux-saga/effects";
+import { put,fork,call,takeEvery, takeLatest } from "redux-saga/effects";
 import * as actions from "../actions";
 import qs from 'qs'
 import api from "../api";
@@ -116,13 +116,15 @@ export function* handleToggleShowFinishedRequest(action) {
     //1.todayTodolist
     let todayParams={cate:CATE.Today,isFinished:action.payload,pageNo:1,pageSize:10}
     // yield fork
-    yield put.resolve(actions.onHeaderRefreshRequest(todayParams));
     //2.weekTodolist
     let weekParams={cate:CATE.Week,isFinished:action.payload,pageNo:1,pageSize:10}
-    put.resolve(actions.onHeaderRefreshRequest(weekParams));
     //3.archiveTodolist
     let archiveParams={cate:-1,isFinished:action.payload,pageNo:1,pageSize:10}
-    put.resolve(actions.onHeaderRefreshRequest(archiveParams));
+    yield put(actions.listTasksRequest(archiveParams));
+
+    yield put(actions.listTasksRequest(todayParams));
+
+    yield put(actions.listTasksRequest(weekParams));
   } catch (error) {
     console.log(error)
     // yield put(actions.onHeaderRefreshFailure(error));
@@ -131,7 +133,8 @@ export function* handleToggleShowFinishedRequest(action) {
 
 export default [
   takeLatest(actions.getTaskRequest.toString(), handleGetTaskRequest),
-  takeLatest(actions.listTasksRequest.toString(), handleListTasksRequest),
+  // takeLatest(actions.listTasksRequest.toString(), handleListTasksRequest),
+  takeEvery(actions.listTasksRequest.toString(), handleOnHeaderRefreshRequest),
   takeLatest(actions.onHeaderRefreshRequest.toString(), handleOnHeaderRefreshRequest),//头部下拉刷新
   takeLatest(actions.onFooterRefreshRequest.toString(), handleOnFooterRefreshRequest),//尾部上拉刷新
   takeLatest(actions.toggleShowFinishedRequest.toString(), handleToggleShowFinishedRequest),//尾部上拉刷新
