@@ -24,3 +24,4 @@ export const onHeaderRefreshFailure = createAction("ON_HEADER_REFRESH_FAILURE");
 export const onFooterRefreshRequest = createAction("ON_FOOTER_REFRESH_REQUEST");//带分页对象
 export const onFooterRefreshSuccess = createAction("ON_FOOTER_REFRESH_SUCCESS");
 export const onFooterRefreshFailure = createAction("ON_FOOTER_REFRESH_FAILURE");
+export const toggleShowFinishedRequest = createAction("TOGGLE_SHOW_FINISHED_REQUEST");//是否显示已经完成的
