@@ -30,3 +30,7 @@ keytool -genkey -v -keystore /opt/my-release-key.keystore -alias my-key-alias -k
 
 
 [安卓打包](https://reactnative.cn/docs/signed-apk-android/))
+
+https://redux-saga-in-chinese.js.org/docs/advanced/NonBlockingCalls.html
+
+https://www.jianshu.com/p/7cac18e8d870 不错的saga

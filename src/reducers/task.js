@@ -246,28 +246,24 @@ export default handleActions(
     }),
     /*todolist的头部下拉刷新操作等*/
     [actions.onHeaderRefreshRequest]: (state, action) => {
-      console.log(action.payload.cate)
-
       console.log('step_data1:'+JSON.stringify(action.payload))
       switch(action.payload.cate)
       {
         case CATE.Today:return {...state,todayRefreshState: RefreshState.HeaderRefreshing};break;
         case CATE.Week:return {...state,weekRefreshState: RefreshState.HeaderRefreshing};break;
-        case CATE.Archive:return {...state,archiveRefreshState: RefreshState.HeaderRefreshing};break;
-        default: return {...state};
+        default: return {...state,archiveRefreshState: RefreshState.HeaderRefreshing};
       }
     },
     [actions.onHeaderRefreshSuccess]: (state, action) => 
     {
 //  ok debug,don't delete
-      // console.log('step_data3:'+JSON.stringify(action.payload))
+      console.log('hhhhh:'+JSON.stringify(action.payload))
       let refreshFlag=action.payload.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle;
       switch(action.payload.cate)
       {
         case CATE.Today:{return {...state,todayTaskPage: action.payload,todayRefreshState: refreshFlag}}
         case CATE.Week:{return {...state,weekTaskPage: action.payload,weekRefreshState: refreshFlag}}
-        case CATE.Archive:{return {...state,archiveTaskPage: action.payload,archiveRefreshState: refreshFlag}}
-        default: {return {...state};break}
+        default: return {...state,archiveTaskPage: action.payload,archiveRefreshState: refreshFlag}
       }
     },
 
@@ -281,8 +277,7 @@ export default handleActions(
       {
         case CATE.Today:{return {...state,todayRefreshState: RefreshState.HeaderRefreshing }}
         case CATE.Week:{return {...state,weekRefreshState: RefreshState.HeaderRefreshing }}
-        case CATE.Archive:{return {...state,archiveRefreshState: RefreshState.HeaderRefreshing }}
-        default: {return {...state};break}
+        default: return {...state,archiveRefreshState: RefreshState.HeaderRefreshing }
       }
     },
     [actions.onFooterRefreshSuccess]: (state, action) => {
@@ -295,24 +290,19 @@ export default handleActions(
       {
         case CATE.Today:{newTaskPage=state.todayTaskPage;break;}
         case CATE.Week:{newTaskPage=state.weekTaskPage;break;}
-        case CATE.Archive:{newTaskPage=state.archiveTaskPage;break;}
-        default: {newTaskPage=state.todayTaskPage;break;}
+        default: {newTaskPage=state.archiveTaskPage;break;}
       }
       // console.log("newTaskPage:"+JSON.stringify(newTaskPage.list))
       const thisTotal=action.payload.list.length+newTaskPage.list.length;
       let refreshFlag= (thisTotal > MAX_SIZE) ? RefreshState.NoMoreData : RefreshState.Idle
-     if(action.payload.list.length==0)
+      if(action.payload.list.length==0)
       {
         refreshFlag=RefreshState.NoMoreData ;
-      }
-      if(refreshFlag === RefreshState.NoMoreData)
-      {
         switch(action.payload.cate)
         {
           case CATE.Today:{return {...state,todayRefreshState: refreshFlag}}
           case CATE.Week:{return {...state,weekRefreshState: refreshFlag}}
-          case CATE.Archive:{return {...state,archiveRefreshState: refreshFlag}}
-          default: {return {...state};break}
+          default: return {...state,archiveRefreshState: refreshFlag}
         }
       }
 
@@ -325,8 +315,7 @@ export default handleActions(
     {
       case CATE.Today:{return {...state,todayTaskPage: newTaskPage,todayRefreshState: refreshFlag};break;}
       case CATE.Week:{return {...state,weekTaskPage: newTaskPage,weekRefreshState: refreshFlag};break;}
-      case CATE.Archive:{return {...state,archiveTaskPage: newTaskPage,archiveRefreshState: refreshFlag};break;}
-      default: {return {...state};break;}
+      default: return {...state,archiveTaskPage: newTaskPage,archiveRefreshState: refreshFlag};
     }
     // return {...state};
     },

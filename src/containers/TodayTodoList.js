@@ -7,7 +7,7 @@
 //  https://github.com/huanxsd/react-native-refresh-list-view
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { onHeaderRefreshRequest, onFooterRefreshRequest,updateTasksSuccess }from '../actions';
+import { onHeaderRefreshRequest, onFooterRefreshRequest,updateTasksSuccess,toggleShowFinishedRequest }from '../actions';
 
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Platform } from 'react-native'
@@ -45,9 +45,25 @@ class TodayTodoList extends Component {
     // console.log('Cell:'+JSON.stringify(item)+'----'+itemIndex)
     return <Cell task={item} itemIndex={itemIndex+1} onPress={() => this.editTask(item)} />
   }
+
+  toggleShow(isFinished)
+  {
+      // let params={'status':(task.status+1)%2,id:task.id,operateType:'done',catePage:CATE.Today}
+      
+      // console.log('this task:'+JSON.stringify(params))
+      if(isFinished==2)
+      {
+        isFinished=0
+      }
+      else
+      {
+        isFinished=2
+      }
+      this.props.toggleShowFinishedRequest(isFinished);
+  }
   render() {
     // taskPage.list
-    const { todayTaskPage, todayRefreshState,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
+    const { todayTaskPage,isFinished, todayRefreshState,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
 
   // console.log('todaystate---:'+JSON.stringify(todayTaskPage))
     // console.log('render scene:'+todayTaskPage.pageNo);
@@ -55,14 +71,18 @@ class TodayTodoList extends Component {
 
     // this.props
     let check;
-    if(0)
+    if(isFinished==2)
     {
-      check=(<FAB small icon="check" style={styles.fab1} onPress={() => {}} />);
+      check=(<FAB small icon="format-list-numbered" style={styles.fab1} onPress={() => this.toggleShow(isFinished)} />);
     }
     else
     {
-      check=(<FAB small icon="playlist-add-check" style={styles.fab1} onPress={() => {}} />);
+      check=(<FAB small icon="playlist-add-check" style={styles.fab1} onPress={() => this.toggleShow(isFinished)} />);
     }
+
+    let headRefreshParams={pageNo:1,pageSize:10,cate:this.state.cate,isFinished:isFinished};
+    let footerRefreshParams={totalPage:todayTaskPage.totalPage,pageNo:todayTaskPage.pageNo,pageSize:todayTaskPage.pageSize,cate:this.state.cate,isFinished:isFinished};
+
     return (
       <View style={styles.container} >
         <RefreshListView
@@ -71,8 +91,8 @@ class TodayTodoList extends Component {
           keyExtractor={this.keyExtractor}
           renderItem={({item, index}) => this.renderCell(item, index)}
           refreshState={todayRefreshState}
-          onHeaderRefresh={onHeaderRefreshRequest}
-          onFooterRefresh={()=>onFooterRefreshRequest(todayTaskPage)}
+          onHeaderRefresh={()=>onHeaderRefreshRequest(headRefreshParams)}
+          onFooterRefresh={()=>onFooterRefreshRequest(footerRefreshParams)}
 
           // 可选
           footerRefreshingText='玩命加载中 >.<'
@@ -121,6 +141,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onHeaderRefreshRequest,onFooterRefreshRequest,updateTasksSuccess
+  onHeaderRefreshRequest,onFooterRefreshRequest,updateTasksSuccess,toggleShowFinishedRequest
 },dispatch)
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(TodayTodoList))
