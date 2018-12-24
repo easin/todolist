@@ -27,3 +27,6 @@ https://material.io/tools/icons/?icon=format_list_numbered&style=baseline rn的�
 java_home 的bin路径下执行：
 
 keytool -genkey -v -keystore /opt/my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 100000
+
+
+[安卓打包](https://reactnative.cn/docs/signed-apk-android/))
