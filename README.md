@@ -34,3 +34,11 @@ keytool -genkey -v -keystore /opt/my-release-key.keystore -alias my-key-alias -k
 https://redux-saga-in-chinese.js.org/docs/advanced/NonBlockingCalls.html
 
 https://www.jianshu.com/p/7cac18e8d870 不错的saga
+
+http://momentjs.cn/docs/#/parsing/object/
+https://itbilu.com/nodejs/npm/4kz3tOClx.html
+https://github.com/wix/react-native-calendars 官方日历 https://juejin.im/entry/59fb0467f265da430405f6b5
+https://www.jianshu.com/p/71b196cf55e8 日历
+
+https://github.com/gs-akhan/react-native-select select
+https://github.com/alinz/react-native-dropdown hao 

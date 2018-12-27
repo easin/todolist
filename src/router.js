@@ -1,14 +1,14 @@
 import { createStackNavigator,createAppContainer } from 'react-navigation';
 import TodayTodoList from './containers/TodayTodoList'
-import Week from './containers/Week'
-import Archive from './containers/Archive'
+import WeekTodoList from './containers/WeekTodoList'
+import ArchiveTodoList from './containers/ArchiveTodoList'
 import TaskDetail from './containers/TaskDetail'
 import { Appbar } from 'react-native-paper';
 const TodayStack = createStackNavigator({
   Today: {
     screen: TodayTodoList,
     navigationOptions: {
-      title: '今日代办',
+      title: '今日待办',
     },
   },
   TaskDetail: {
@@ -22,7 +22,7 @@ export const TodayStackNav = createAppContainer(TodayStack); //v3版本指定需
 
 const WeekStack = createStackNavigator({
   Week: {
-    screen: Week,
+    screen: WeekTodoList,
     navigationOptions: {
       title: '本周目标',
     },
@@ -39,7 +39,7 @@ export const WeekStackNav = createAppContainer(WeekStack);
 
 const ArchiveStack = createStackNavigator({
   Archive: {
-    screen: Archive,
+    screen: ArchiveTodoList,
     navigationOptions: {
       title: '历史归档',
     },

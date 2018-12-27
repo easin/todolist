@@ -19,10 +19,10 @@ import { FAB } from 'react-native-paper';
 import {withNavigation} from 'react-navigation' 
 
 
-class TodayTodoList extends Component {
+class ArchiveTodoList extends Component {
 
   state = {
-    cate: CATE.Today,
+    cate: -1,
   }
   componentDidMount() {
     let params={pageNo:1,pageSize:DEFAULT_PAGE.pageSize,cate:this.state.cate}
@@ -37,10 +37,10 @@ class TodayTodoList extends Component {
   addNewTask ()
   {
     let task={newRecord:true,sort:50}
-    this.props.navigation.navigate('TaskDetail', { ...task,catePage:CATE.Today });
+    this.props.navigation.navigate('TaskDetail', { ...task,catePage:-1 });
   }
   editTask = (task) => {
-        this.props.navigation.navigate('TaskDetail', { ...task,catePage:CATE.Today });
+        this.props.navigation.navigate('TaskDetail', { ...task,catePage:-1 });
       } 
   renderCell = (item: Object,itemIndex:number) => {
     // console.log('Cell:'+JSON.stringify(item)+'----'+itemIndex)
@@ -49,7 +49,7 @@ class TodayTodoList extends Component {
 
   toggleShow(isFinished)
   {
-      // let params={'status':(task.status+1)%2,id:task.id,operateType:'done',catePage:CATE.Today}
+      // let params={'status':(task.status+1)%2,id:task.id,operateType:'done',catePage:-1}
       
       // console.log('this task:'+JSON.stringify(params))
       if(isFinished==2)
@@ -64,11 +64,11 @@ class TodayTodoList extends Component {
   }
   render() {
     // taskPage.list
-    const { todayTaskPage,isFinished, todayRefreshState,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
+    const { archiveTaskPage,isFinished, archiveRefreshState,onHeaderRefreshRequest,onFooterRefreshRequest } = this.props
 
-  // console.log('todaystate---:'+JSON.stringify(todayTaskPage))
-    // console.log('render scene:'+todayTaskPage.pageNo);
-    const {list}=todayTaskPage;
+  // console.log('archivestate---:'+JSON.stringify(archiveTaskPage))
+    // console.log('render scene:'+archiveTaskPage.pageNo);
+    const {list}=archiveTaskPage;
 
     // this.props
     let check;
@@ -82,7 +82,7 @@ class TodayTodoList extends Component {
     }
 
     let headRefreshParams={pageNo:1,pageSize:DEFAULT_PAGE.pageSize,cate:this.state.cate,isFinished:isFinished};
-    let footerRefreshParams={totalPage:todayTaskPage.totalPage,pageNo:todayTaskPage.pageNo,pageSize:todayTaskPage.pageSize,cate:this.state.cate,isFinished:isFinished};
+    let footerRefreshParams={totalPage:archiveTaskPage.totalPage,pageNo:archiveTaskPage.pageNo,pageSize:archiveTaskPage.pageSize,cate:this.state.cate,isFinished:isFinished};
 
     return (
       <View style={styles.container} >
@@ -91,7 +91,7 @@ class TodayTodoList extends Component {
           data={list}
           keyExtractor={this.keyExtractor}
           renderItem={({item, index}) => this.renderCell(item, index)}
-          refreshState={todayRefreshState}
+          refreshState={archiveRefreshState}
           onHeaderRefresh={()=>onHeaderRefreshRequest(headRefreshParams)}
           onFooterRefresh={()=>onFooterRefreshRequest(footerRefreshParams)}
 
@@ -136,12 +136,12 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = (state, ownProps) => {
   return {
-    todayTaskPage:state.task.todayTaskPage, 
+    archiveTaskPage:state.task.archiveTaskPage, 
     isFinished:state.task.isFinished,
-    todayRefreshState:state.task.todayRefreshState,
+    archiveRefreshState:state.task.archiveRefreshState,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
   onHeaderRefreshRequest,onFooterRefreshRequest,updateTasksSuccess,toggleShowFinishedRequest
 },dispatch)
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(TodayTodoList))
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(ArchiveTodoList))

@@ -4,7 +4,7 @@ import qs from 'qs'
 import api from "../api";
 import axios from "../axiosConfig";
 import  {DEFAULT_PAGE as defaultPage}  from '../utils/constants'
-import {CATE} from '../utils/constants'
+import {CATE,taskOrderBy,memoOrderBy} from '../utils/constants'
 
 export function* handleGetTaskRequest(action) {
   try {
@@ -15,12 +15,12 @@ export function* handleGetTaskRequest(action) {
   }
 }
 export function* handleListTasksRequest(action) {
+  action.payload.orderBy=taskOrderBy;
   try {
     if(action.payload.totalPage > action.payload.pageNo)
     {
       action.payload.pageNo=action.payload.pageNo+1;
-      const {pageNo,pageSize}=action.payload;
-      const { data } = yield call(api.listTasksRequest, {pageNo:pageNo,pageSize:pageSize});
+      const { data } = yield call(api.listTasksRequest, action.payload);
       yield put(actions.listTasksSuccess(data));
     }
     else 
@@ -66,6 +66,7 @@ export function* handleDelTasksRequest(action) {
 
 export function* handleOnHeaderRefreshRequest(action) {
   try {
+    action.payload.orderBy=taskOrderBy;
     let { data } = yield call(api.listTasksRequest, action.payload);
     console.log('step_data2:'+JSON.stringify(action.payload))
     data.cate=action.payload.cate;
@@ -76,6 +77,7 @@ export function* handleOnHeaderRefreshRequest(action) {
   }
 }
 export function* handleOnFooterRefreshRequest(action) {
+  action.payload.orderBy=taskOrderBy;
   try {
     console.log('moremore:'+JSON.stringify(action.payload))
     if(action.payload.totalPage > action.payload.pageNo)
@@ -110,16 +112,16 @@ export function* handleOnFooterRefreshRequest(action) {
 export function* handleToggleShowFinishedRequest(action) {
   try {
     
-    console.log('xxx')
-    console.log(action.payload)
-    console.log('xxx')
+    // console.log('xxx')
+    // console.log(action.payload)
+    // console.log('xxx')
     //1.todayTodolist
-    let todayParams={cate:CATE.Today,isFinished:action.payload,pageNo:1,pageSize:10}
+    let todayParams={cate:CATE.Today,isFinished:action.payload,pageNo:1,pageSize:defaultPage.pageSize,orderBy:taskOrderBy}
     // yield fork
     //2.weekTodolist
-    let weekParams={cate:CATE.Week,isFinished:action.payload,pageNo:1,pageSize:10}
+    let weekParams={cate:CATE.Week,isFinished:action.payload,pageNo:1,pageSize:defaultPage.pageSize,orderBy:taskOrderBy}
     //3.archiveTodolist
-    let archiveParams={cate:-1,isFinished:action.payload,pageNo:1,pageSize:10}
+    let archiveParams={cate:-1,isFinished:action.payload,pageNo:1,pageSize:defaultPage.pageSize,orderBy:taskOrderBy}
     yield put(actions.listTasksRequest(archiveParams));
 
     yield put(actions.listTasksRequest(todayParams));

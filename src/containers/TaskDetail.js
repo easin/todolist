@@ -1,13 +1,24 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { List,Chip,Button,TextInput, HelperText, withTheme } from 'react-native-paper';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateTasksRequest }from '../actions';
+import { listTagsRequest,updateTasksRequest }from '../actions';
+
+
+import React, { Component } from 'react';
+import { StyleSheet, View, ScrollView,DatePickerAndroid } from 'react-native';//Picker
+import { List,Chip,Button,TextInput, HelperText, withTheme } from 'react-native-paper';
 import type { Theme } from 'react-native-paper/types';
+import {CATE} from '../utils/constants'
+// import ModalDropdown from 'react-native-modal-dropdown';
+import moment from 'moment';
+import _ from "lodash";
 
 class TaskDetail extends Component {
 
+
+	// constructor(props) {
+	//   super(props);
+	//   this.taggleTag = this.taggleTag.bind(this);
+	// }
 
 	state =  {
 	}
@@ -16,7 +27,64 @@ class TaskDetail extends Component {
 	{
 		let params=this.state;
 		// params.operateType
-		this.props.updateTasksRequest({...params,operateType:'edit'}); //新增或者更新一条
+		let operateType=params.newRecord?'insert':'edit'
+		// params
+		if(!!params.endTime&& params.endTime.length<13)
+		{
+			params.endTime=params.endTime+' 00:00:00';	
+		}
+		this.props.updateTasksRequest({...params,operateType:operateType}); //新增或者更新一条
+		// this.props.navigation.goBack();
+		// this.timer = setTimeout(
+  //     		  () => { console.log('把一个定时器的引用挂在this上');this.props.navigation.goBack(); },
+		//       10000
+		//     );
+	}
+
+
+	async chooseDate()
+	{
+		try {
+		  const {action, year, month, day} = await DatePickerAndroid.open({
+		    // Use `new Date()` for current date.
+		    // May 25 2020. Month 0 is January.
+		    // date: new Date(2020, 4, 25)
+		    date:moment(new Date()).add(1, 'days').toDate()
+		  });
+		  if (action !== DatePickerAndroid.dismissedAction) {
+		    // Selected year, month (0-11), day
+				// console.log('====>'+year+'-'+(month+1)+'-'+day)
+				this.setState({ endTime: year+'-'+(month+1)+'-'+day})
+		  }
+		
+		console.log(year+'-'+(month+1)+'-'+day)
+		} catch ({code, message}) {
+		  console.warn('Cannot open date picker', message);
+		}
+	}
+
+	taggleTag(tag)
+	{
+		let oldTags=this.state.tagIds.split(',')
+		// console.log(oldTags)
+		// console.log(33333333)
+		let index=oldTags.indexOf(tag)
+		if(index>0)
+		{
+			// oldTags=_.remove(oldTags, function(t) { return t=tag; });
+			// oldTags=oldTags.splice(index+1, 1);
+			_.pullAt(oldTags, [index])
+			this.setState({tagIds:oldTags.join(',')})
+		}
+		else
+		{
+			// let newTags=_.compact(_.concat(oldTags, tag));
+			// if(newTags.length>0)
+			// {
+
+			// }
+			this.setState({tagIds:_.compact(_.concat(oldTags, tag)).join(',')})
+		}
 	}
 	componentDidMount() {
 		//初始化参数到state里
@@ -28,11 +96,77 @@ class TaskDetail extends Component {
 		}
 		task.priorityStr=priorityStr;
 		task.sortStr=task.sort+''
-		this.setState(task)
+		if(task.catePage==CATE.Today)
+		{
+			if(!task.endTime)
+			{
+				task.endTime=moment(new Date()).add(1, 'days').format("YYYY-MM-DD");
+			}
+			else
+			{
+				task.endTime=moment(task.endTime, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD");
+			}
+		}
+		if(!task.tagIds)
+		{
+			task.tagIds='';
+		}
+		this.setState(task);
+
+		let {tags}=this.props;
+		if(!tags||tags.length==0)
+		{
+			this.props.listTagsRequest();
+		}
 	}
+
+	componentWillUnmount() {
+	    // 如果存在this.timer，则使用clearTimeout清空。
+	    // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+	    // this.timer && clearTimeout(this.timer);
+  	}
   	render() {
-  	console.log(this.state)
+  	// console.log(this.state)
+  	let tagDoms=[];
+
+  	let {tags} = this.props;
+	
+	if(tags.length>0)
+	{
+  	var idx=0;
+  	// var i=0;i<tags.length;i++
+    for(var i in tags){
+      var item = (
+       <Chip key={idx.toString()} onPress={this.taggleTag.bind(this,tags[i].tagName)} style={styles.chip}>
+	              {tags[i].tagName}
+	   </Chip>
+      );
+      idx++;
+      tagDoms.push(item);
+    }
+	}
   	
+  	
+
+//    <Chip onPress={() => this.taggleTag('每日')} style={styles.chip}>
+//	              每日
+//	            </Chip>
+//	            <Chip onPress={() => this.taggleTag('每晚8点')} style={styles.chip}>
+//	              每晚8点
+//	            </Chip>
+//	            <Chip onPress={() => this.taggleTag('每周末')}  style={styles.chip}>
+//	              每周末
+//	            </Chip>
+//	            <Chip onPress={() => this.taggleTag('阅读')}  style={styles.chip}>
+//	              阅读
+//	            </Chip>
+//	            <Chip onPress={() => this.taggleTag('生活')}  style={styles.chip}>
+//	              健康
+//	            </Chip>
+//	            <Chip onPress={() => this.taggleTag('领导力')}  style={styles.chip}>
+//	              领导力
+//	            </Chip>
+
     return (<ScrollView style={[styles.container]}>
 	        <TextInput
 	          style={styles.inputContainerStyle}
@@ -48,10 +182,11 @@ class TaskDetail extends Component {
 	          label="DeadLine"
 	          placeholder="DeadLine"
 	          value={this.state.endTime}
+	          onFocus={endTime => this.chooseDate()}
 	          onChangeText={endTime => this.setState({ endTime })}
 	        />
 
-	        <TextInput
+	 		<TextInput
 	          style={[styles.inputContainerStyle,styles.w25]}
 	          label="级别"
 	          placeholder="!"
@@ -63,7 +198,19 @@ class TaskDetail extends Component {
 	          		// console.log(56778)
 	    //       		let tempPriorityStr="";
 	    //       		let tempPriority=parseFloat(priorityStr)
-
+					try{
+						let n=parseInt(priorityStr)
+						tempPriorityStr="";
+						for(var i=0;i<n&&i<5;i++)
+						{
+							tempPriorityStr+='!';
+						}
+						this.setState({ priorityStr:tempPriorityStr,priority:priorityStr })
+					}
+					catch(e)
+					{
+						this.setState({ priorityStr:priorityStr,priority:priorityStr.length })
+					}
 
 					// for(var i=0;i<tempPriority&&i<5;i++)
 					// {
@@ -71,7 +218,7 @@ class TaskDetail extends Component {
 					// }
 					// this.setState({ priorityStr:tempPriorityStr,priority:priorityStr })
 
-					this.setState({ priorityStr:priorityStr,priority:priorityStr.length })
+					
 	          	}
 	          	else
 	          	{
@@ -103,27 +250,19 @@ class TaskDetail extends Component {
 		          style={[styles.inputContainerStyle]}
 		          label="标签"
 		          placeholder="逗号分割"
-		          value={this.state.tagsStr}
-		          onChangeText={tagsStr => this.setState({ tagsStr })}
+		          value={this.state.tagIds}
+		          onChangeText={tagIds => this.setState({ tagIds })}
 		        />
 	          	</View>
 	          <View style={styles.row}>
-	          	
-	            <Chip onPress={() => {}} style={styles.chip}>
-	              Simple
-	            </Chip>
-	            <Chip onPress={() => {}} onClose={() => {}} style={styles.chip}>
-	              Close button
-	            </Chip>
-	            <Chip
-	              icon="favorite"
-	              onPress={() => {}}
-	              onClose={() => {}}
-	              style={styles.chip}
-	            >
-	              Icon
-	            </Chip>
+	          	{tagDoms}
+	            
 	          </View>
+
+			<View>
+				
+				
+			</View>
       </ScrollView>
     );
 	}
@@ -163,7 +302,13 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  updateTasksRequest
+  updateTasksRequest,listTagsRequest
 },dispatch)
 
-export default withTheme(connect(null,mapDispatchToProps)(TaskDetail));
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    tags:state.tag.tags,
+  }
+}
+export default withTheme(connect(mapStateToProps,mapDispatchToProps)(TaskDetail));

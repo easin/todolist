@@ -2,8 +2,9 @@ import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Platform } from 'react-native'
 // import Today from './Today'
-import My from './My'
+import MyMemo from './MyMemo'
 import { TodayStackNav,WeekStackNav,ArchiveStackNav } from '../router'
+import MyCalendar from './MyCalendar'
 /*
 Invariant Violation: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
 import Week  from './Week' 只有一个默认导出的时候，不要加中括号
@@ -22,9 +23,9 @@ export default class TodoListBottomNavigation extends React.Component {
     routes: [
       { key: 'today', title: '待办', icon: 'playlist-add-check' },
       { key: 'week', title: '周', icon: 'history' },
-      { key: 'month', title: '月', icon: 'date-range' },
+      { key: 'calendar', title: '月', icon: 'date-range' },
       { key: 'archive', title: '归档', icon: 'archive' },
-      { key: 'my', title: '我', icon: 'person' },
+      { key: 'memo', title: '我', icon: 'border-color' },
     ],
   };
 
@@ -33,9 +34,9 @@ export default class TodoListBottomNavigation extends React.Component {
   _renderScene = BottomNavigation.SceneMap({
     today: TodayStackNav,
     week: WeekStackNav,
-    month: TodayStackNav,
+    calendar: MyCalendar,
     archive: ArchiveStackNav,
-    my: My,
+    memo: MyMemo,
   });
   render() {
     return (

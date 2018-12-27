@@ -14,8 +14,8 @@ const initialState = {
   todayRefreshState:RefreshState.Idle,
   weekRefreshState:RefreshState.Idle,
   archiveRefreshState:RefreshState.Idle,
-  isFinished:2,//0未完成，1已完成，2所有
-  isArchived:1,//0未归档1，归档，2所有
+  isFinished:-1,//0未完成,1已完成，-1所有
+  isArchived:-1,//0未归档,1归档，-1所有
 };
 
 /*
@@ -64,16 +64,42 @@ export default handleActions(
       ...state
     }),
     [actions.updateTasksSuccess]: (state, action) => {
-      console.log('updateTasksSuccess action:'+JSON.stringify(action.payload));
+      // console.log('updateTasksSuccess action:'+JSON.stringify(action.payload));
       switch(action.payload.operateType)
       {
 
-        case 'edit':{
-          console.log('t1');
-          let todayList=state.todayTaskPage.list
-          let weekList=state.weekTaskPage.list;
-          let archiveList=state.archiveTaskPage.list;
+        case 'insert':{
+          let {list:todayList}=state.todayTaskPage
+          let {list:weekList}=state.weekTaskPage;
+          let {list:archiveList}=state.archiveTaskPage;
+          if(action.payload.catePage == CATE.Today)
+          {
+            todayList=_.concat([action.payload.object],todayList); 
+            let {todayTaskPage}=state;
+            todayTaskPage.list=todayList;
+            return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage))};
+          }
+          else if(action.payload.catePage == CATE.Week)
+          {
+            weekList=_.concat([action.payload.object],weekList);
+            let {weekTaskPage}=state;
+            weekTaskPage.list=weekList;
+            return {...state,weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};
+          }
+          else
+          {
+            archiveList=_.concat([action.payload.object],archiveList);
+            let {archiveTaskPage}=state;
+            archiveTaskPage.list=archiveList;
+            return {...state,archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
+          }
+        }
 
+        case 'edit':{
+          let {list:todayList}=state.todayTaskPage
+          let {list:weekList}=state.weekTaskPage;
+          let {list:archiveList}=state.archiveTaskPage;
+          console.log(todayList);
           let todayIdx=_.findIndex(todayList, { id:action.payload.object.id });
           let weekIdx=_.findIndex(weekList, { id:action.payload.object.id });
           let archiveIdx=_.findIndex(archiveList, { id:action.payload.object.id });
@@ -83,7 +109,6 @@ export default handleActions(
             todayList[todayIdx]=action.payload.object;
             let {todayTaskPage}=state;
             todayTaskPage.list=todayList;
-            console.log('ttt:'+JSON.stringify(todayTaskPage))
             return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage))};
           }
           else if(weekIdx>0)
@@ -100,8 +125,6 @@ export default handleActions(
             archiveTaskPage.list=archiveList;
             return {...state,archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
           }
-
-
         }
         case 'cate':{
           let todayList=state.todayTaskPage.list;
@@ -189,40 +212,66 @@ export default handleActions(
           }
         }
         case 'done' :{
+
+            let {isFinished}=state;
             switch(action.payload.catePage)
             {
               case CATE.Today :{
                 let todayList=state.todayTaskPage.list;
-                _.each(todayList, function(a, idx){
+
+                if(isFinished==2)
+                {
+                  _.each(todayList, function(a, idx){
                   if(a.id==action.payload.object.id){
                     todayList[idx] = action.payload.object;
                     return false;//不要继续
                   }
                 });
+                }
+                else if(action.payload.object.status==1)
+                {//只显示未完成
+                  _.remove(todayList, function(t) { return t.id == action.payload.object.id; });
+                }
+                
                 let {todayTaskPage}=state;
                 todayTaskPage.list=todayList;
                 return {...state,todayTaskPage:JSON.parse(JSON.stringify(todayTaskPage))};
               }
               case CATE.Week :{
                 let weekList=state.weekTaskPage.list;
-                _.each(weekList, function(a, idx){
-                  if(a.id==action.payload.object.id){
-                    weekList[idx] = action.payload.object;
-                    return false;//不要继续
-                  }
-                });
+                if(isFinished==2)
+                {
+                  _.each(weekList, function(a, idx){
+                    if(a.id==action.payload.object.id){
+                      weekList[idx] = action.payload.object;
+                      return false;//不要继续
+                    }
+                  });
+                }
+                else if(action.payload.object.status==1)
+                {//只显示未完成
+                  _.remove(weekList, function(t) { return t.id == action.payload.object.id; });
+                }
                 let {weekTaskPage}=state;
                 weekTaskPage.list=todayList;
                 return {...state,weekTaskPage:JSON.parse(JSON.stringify(weekTaskPage))};
               }
               default :{
                 let archiveList=state.archiveTaskPage.list;
-                _.each(archiveList, function(a, idx){
-                  if(a.id==action.payload.object.id){
-                    archiveList[idx] = action.payload.object;
-                    return false;//不要继续
-                  }
-                });
+
+                if(isFinished==2)
+                {
+                  _.each(archiveList, function(a, idx){
+                    if(a.id==action.payload.object.id){
+                      archiveList[idx] = action.payload.object;
+                      return false;//不要继续
+                    }
+                  });
+                }
+                else if(action.payload.object.status==1)
+                {//只显示未完成
+                  _.remove(archiveList, function(t) { return t.id == action.payload.object.id; });
+                }
                 let {archiveTaskPage}=state;
                 archiveTaskPage.list=archiveList;
                 return {...state,archiveTaskPage:JSON.parse(JSON.stringify(archiveTaskPage))};
@@ -257,7 +306,7 @@ export default handleActions(
     [actions.onHeaderRefreshSuccess]: (state, action) => 
     {
 //  ok debug,don't delete
-      console.log('hhhhh:'+JSON.stringify(action.payload))
+      // console.log('hhhhh:'+JSON.stringify(action.payload))
       let refreshFlag=action.payload.list.length < 1 ? RefreshState.EmptyData : RefreshState.Idle;
       switch(action.payload.cate)
       {

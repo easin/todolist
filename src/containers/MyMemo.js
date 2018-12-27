@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text,View } from 'react-native';
 import { Portal,Button,IconButton,Colors } from 'react-native-paper';
 import { connect } from 'react-redux';
-class My extends React.Component {
+class MyMemo extends React.Component {
   render() {
     return (
       <Portal.Host>
@@ -19,4 +19,4 @@ class My extends React.Component {
     );
   }
 }
-export default  connect()(My)
+export default  connect()(MyMemo)
